@@ -1,0 +1,2595 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{amsmath}
+\usepackage{pgfmath}
+\usepackage{tikz}
+\usepackage{kinematikz}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children no
+\language canadian
+\language_package default
+\inputencoding utf8
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008080
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content true
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Section
+\noindent
+Introduction
+\end_layout
+
+\begin_layout Section
+\noindent
+Literature Review
+\end_layout
+
+\begin_layout Section
+\noindent
+Feasibility Study
+\end_layout
+
+\begin_layout Standard
+\noindent
+This chapter presents a systematic,
+ two-stage methodology for sizing and validating a rotary-actuated Stewart platform,
+ starting with a one-degree-of-freedom analogue and ending with an optimized six-degree-of-freedom motion simulator.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+In the first stage,
+ we isolate the most demanding motion from the dataset,
+ vertical translation along the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+ 
+\backslash
+textit{z}
+\backslash
+nobreakdash-axis
+\end_layout
+
+\end_inset
+
+,
+ using a single-axis slider-crank model
+\end_layout
+
+\begin_layout Standard
+\noindent
+We derive its forward and inverse kinematics to verify that the required workspace can be reached,
+ then formulate the inverse dynamics to assess 
+\end_layout
+
+\begin_layout Standard
+\noindent
+whether off-the-shelf servomotors can meet the dynamic performance requirements.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+This analysis serves two purposes:
+ it identifies which servos are capable of the task,
+ and it establishes whether advancing to a full Stewart-platform architecture is justified.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+In the second stage,
+ we develop the complete Stewart-platform model.
+ We derive its inverse kinematics to determine the geometric parameters
+\end_layout
+
+\begin_layout Standard
+\noindent
+required to span the entire 6-DOF workspace.
+ Building on that,
+ we formulate the inverse dynamics and optimize the platform for maximum dynamic performance.
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Operational Envelope:
+\end_layout
+
+\begin_layout Standard
+\noindent
+From the processed torso‐motion data-set,
+ we identified the key performance targets that the platform must satisfy.
+ Table below summarizes 
+\end_layout
+
+\begin_layout Standard
+\noindent
+the required translation,
+ acceleration,
+ and rotational limits in each axis along with fundamental associated frequencies.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{table}[h]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tabular}{cccc}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Feature} & 
+\backslash
+textbf{Axis} & 
+\backslash
+textbf{Value} & 
+\backslash
+textbf{Fundamental Frequency (Hz)} 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+Translation & Z & $
+\backslash
+pm$4 cm & 3 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+Rotation & Z (transverse) & $
+\backslash
+pm$15.5$^
+\backslash
+circ$ & 1.5 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+Rotation & Y (sagittal) & $
+\backslash
+pm$2.5$^
+\backslash
+circ$ & 3 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+Rotation & X (frontal) & $
+\backslash
+pm$3.0$^
+\backslash
+circ$ & 1.5 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+Linear Acceleration & Z & $-1g$ to $+6g$ & 3 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tabular}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+caption{Torso Motion Dataset}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+label{tab:torso_motion}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{table}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+From the table above,
+ we use the translation and rotation features to define the kinematic workspace requirements and the linear acceleration feature for determining the dynamic requirements.
+\end_layout
+
+\begin_layout Subsection
+\noindent
+1-DOF Analysis(Pick a good name):
+\end_layout
+
+\begin_layout Standard
+\noindent
+A slider-crank mechanism is a four-link system composed of three revolute joints and one prismatic joint.
+ The kinematics and dynamics of a Stewart platform operating strictly along the vertical
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+ 
+\backslash
+textit{z}
+\backslash
+nobreakdash-axis
+\end_layout
+
+\end_inset
+
+ can be approximated using 6 identical slider-crank mechanisms,
+ each contributing equally to the motion and load distribution(proof in appendix).
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{figure}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+  % === Parameters ===
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pgfmathsetmacro{
+\backslash
+R}{2}           % Crank length r
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pgfmathsetmacro{
+\backslash
+N}{2.5}         % Link ratio n
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pgfmathsetmacro{
+\backslash
+Angle}{40}      % Crank angle in degrees
+\end_layout
+
+\begin_layout Plain Layout
+
+  % === Trig Evaluation ===
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pgfmathsetmacro{
+\backslash
+ct}{cos(
+\backslash
+Angle)}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pgfmathsetmacro{
+\backslash
+st}{sin(
+\backslash
+Angle)}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pgfmathsetmacro{
+\backslash
+asinfrac}{asin(
+\backslash
+ct/
+\backslash
+N)} % arcsin(cos(theta)/n)
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pgfmathsetmacro{
+\backslash
+cosarc}{cos(
+\backslash
+asinfrac)} % cos(arcsin(...))
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pgfmathsetmacro{
+\backslash
+Yval}{
+\backslash
+R*
+\backslash
+st + 
+\backslash
+N*
+\backslash
+R*
+\backslash
+cosarc} % Final y pos of slider
+\end_layout
+
+\begin_layout Plain Layout
+
+  % === Coordinates ===
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+coordinate (O) at (0,0);
+\end_layout
+
+\begin_layout Plain Layout
+
+  % === Axes ===
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (O) -- ++({
+\backslash
+R*2},0) node[right] {$x$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (O) -- ++(0,{
+\backslash
+R*(
+\backslash
+N+1.1)}) node[above] {$z$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  % === Ground and Crank ===
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pic (base) at (O) {frame pivot rounded};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pic (crank_arm) at (O) {link bar generic={
+\backslash
+Angle:
+\backslash
+R cm/1/1/1/1}};
+\end_layout
+
+\begin_layout Plain Layout
+
+  % === Slider and Connecting Rod ===
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pic (slider) at (0,
+\backslash
+Yval) [rotate=90] {frame dual pivot slide={2cm/0.0/0.4}};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pic (connecting_rod) at (crank_arm-end) {link bar generic={slider-center/1/1/1/1}};
+\end_layout
+
+\begin_layout Plain Layout
+
+  % === Labels and Geometry ===
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[dashdotted] (O) -- (crank_arm-end) node[midway,above left] {$r$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[dashdotted] (crank_arm-end) -- (slider-center) node[midway,above,
+ right,
+ xshift=3pt,
+ yshift=1pt] {$l=nr$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+fill (O) circle (2pt)node[ xshift=-10pt,
+ yshift=10pt] {$O$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+fill (crank_arm-end) circle (2pt)
+\end_layout
+
+\begin_layout Plain Layout
+
+    node[ right=3pt]{$A$};
+\end_layout
+
+\begin_layout Plain Layout
+
+    % {$(r
+\backslash
+cos
+\backslash
+theta,
+\backslash
+ r
+\backslash
+sin
+\backslash
+theta)$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+fill (slider-center) circle (2pt)
+\end_layout
+
+\begin_layout Plain Layout
+
+    node[ right=10pt,
+ align=left] {$B$};
+\end_layout
+
+\begin_layout Plain Layout
+
+      % {$(0,
+\backslash
+ r
+\backslash
+sin
+\backslash
+theta +$
+\backslash
+
+\backslash
+$ 
+\backslash
+quad nr
+\backslash
+cos
+\backslash
+left(
+\backslash
+arcsin
+\backslash
+left(
+\backslash
+frac{
+\backslash
+cos
+\backslash
+theta}{n}
+\backslash
+right)
+\backslash
+right))$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  % Angle Arc
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] ({
+\backslash
+R*0.8},0) arc[start angle=0,
+ end angle=
+\backslash
+Angle,
+ radius={
+\backslash
+R*0.8}]
+\end_layout
+
+\begin_layout Plain Layout
+
+    node[midway,left,yshift=-5pt] {$
+\backslash
+theta$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (0,{
+\backslash
+Yval*0.5}) arc[start angle=-90,
+ end angle=
+\backslash
+asinfrac-90,
+ radius={
+\backslash
+Yval*0.5}]
+\end_layout
+
+\begin_layout Plain Layout
+
+    node[above,midway,xshift=-2pt] {$
+\backslash
+phi$};
+\end_layout
+
+\begin_layout Plain Layout
+
+% Shared X for dimension and dash lines
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+coordinate (dimX) at (-2.0,
+ 0);
+\end_layout
+
+\begin_layout Plain Layout
+
+% solid horizontal lines at top and bottom
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[solid] ($(slider-center -| dimX) + (-0.1,0)$) -- (slider-center);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[solid] ($(O -| dimX) + (-0.1,0)$) -- (O);
+\end_layout
+
+\begin_layout Plain Layout
+
+% One vertical dimension arrow from base to slider height
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[<->,
+ >=Stealth] (dimX) -- (dimX |- slider-center)
+\end_layout
+
+\begin_layout Plain Layout
+
+  node[midway,sloped,rotate=0,above] {$z=f(
+\backslash
+theta)$};
+\end_layout
+
+\begin_layout Plain Layout
+
+% Vertical arrow from (-1,
+ 0) to (-1,
+ r*sin(angle))
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[<->,
+ >=Stealth] (-1,
+ 0) -- (-1,
+ {
+\backslash
+R*
+\backslash
+st})
+\end_layout
+
+\begin_layout Plain Layout
+
+    node[midway,sloped,above] {$r
+\backslash
+sin(
+\backslash
+theta)$};
+\end_layout
+
+\begin_layout Plain Layout
+
+% Vertical arrow from (-1,
+ r*sin(angle)) to (-1,
+ 
+\backslash
+Yval)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[<->,
+ >=Stealth] (-1,
+ {
+\backslash
+R*
+\backslash
+st}) -- (-1,
+ 
+\backslash
+Yval)
+\end_layout
+
+\begin_layout Plain Layout
+
+    node[midway,sloped,above] {$l
+\backslash
+cos(
+\backslash
+phi)$};
+\end_layout
+
+\begin_layout Plain Layout
+
+% Horizontal line from (-1,
+ r*sin(angle)) to (r*cos(angle),
+ r*sin(angle))
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[solid] (-1.1,
+ {
+\backslash
+R*
+\backslash
+st}) -- ({
+\backslash
+R*
+\backslash
+ct},
+ {
+\backslash
+R*
+\backslash
+st})
+\end_layout
+
+\begin_layout Plain Layout
+
+    node[midway,below] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+caption{Slider-crank mechanism}
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+label{fig:SliderCrank}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{figure}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+\noindent
+Forward Kinematics:
+\end_layout
+
+\begin_layout Standard
+\noindent
+We consider a vertical slider–crank mechanism in which a crank of length 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$r$
+\end_layout
+
+\end_inset
+
+drives a slider B via a connecting rod of length 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$l$
+\end_layout
+
+\end_inset
+
+,
+ The vertical displacement of the slider,
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$z$
+\end_layout
+
+\end_inset
+
+,
+ can be written as:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+z = r 
+\backslash
+sin(
+\backslash
+theta) + l
+\backslash
+cos(
+\backslash
+phi)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Here,
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+theta$
+\end_layout
+
+\end_inset
+
+ is the angle between the crank arm and the horizontal 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$x$
+\end_layout
+
+\end_inset
+
+-axis,
+ and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+phi$
+\end_layout
+
+\end_inset
+
+ is the angle between the connecting rod and the vertical 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$z$
+\end_layout
+
+\end_inset
+
+-axis.
+\end_layout
+
+\begin_layout Standard
+\noindent
+Applying the sine rule to 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+triangle OAB$
+\end_layout
+
+\end_inset
+
+,
+ we obtain :
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frac{r}{
+\backslash
+sin(
+\backslash
+phi)} = 
+\backslash
+frac{l}{
+\backslash
+sin
+\backslash
+left(
+\backslash
+frac{
+\backslash
+pi}{2} - 
+\backslash
+theta 
+\backslash
+right)}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+We define a ratio 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$n = l/r$
+\end_layout
+
+\end_inset
+
+ for convenience of calculation.
+ substituting 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$l=nr$
+\end_layout
+
+\end_inset
+
+ and solving for 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+phi$
+\end_layout
+
+\end_inset
+
+ and we get-
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+phi = 
+\backslash
+arcsin
+\backslash
+left( 
+\backslash
+frac{
+\backslash
+cos
+\backslash
+theta}{n} 
+\backslash
+right)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+So the displacement equation becomes -
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+  z = f(
+\backslash
+theta)
+\end_layout
+
+\begin_layout Plain Layout
+
+  = r 
+\backslash
+sin(
+\backslash
+theta) + nr
+\backslash
+cos(
+\backslash
+sin^{-1}
+\backslash
+!(
+\backslash
+frac{
+\backslash
+cos
+\backslash
+theta}{n}))
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+label{FK}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Equation
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+eqref{FK}$
+\end_layout
+
+\end_inset
+
+ gives the forward kinematics ,
+ the vertical position 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$z$
+\end_layout
+
+\end_inset
+
+ of the slider as a function of crank angle 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+theta$
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+\noindent
+Inverse Kinematics:
+\end_layout
+
+\begin_layout Standard
+\noindent
+The inverse kinematics problem involves determining the crank angle 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+theta$
+\end_layout
+
+\end_inset
+
+ required to achieve a given vertical slider position 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$z$
+\end_layout
+
+\end_inset
+
+.
+ In 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+triangle OAB$
+\end_layout
+
+\end_inset
+
+ applying cosine rule,
+ we obtain :
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+angle AOB = 
+\backslash
+frac{
+\backslash
+pi}{2} - 
+\backslash
+theta = 
+\backslash
+cos^{-1}
+\backslash
+!(
+\backslash
+frac{h^2 + r^2 - l^2}{2hr})
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+substituting 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$l=nr$
+\end_layout
+
+\end_inset
+
+ and solving for 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+theta$
+\end_layout
+
+\end_inset
+
+ and we obtain -
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+theta = 
+\backslash
+sin^{-1}
+\backslash
+left( 
+\backslash
+frac{h^2 + r^2 (1- n^2)}{2hr} 
+\backslash
+right)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+label{eq:IK}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+This expression allows us to compute the crank angle 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+theta$
+\end_layout
+
+\end_inset
+
+ given the slider displacement 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$h$
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+\noindent
+Inverse Dynamics:
+\end_layout
+
+\begin_layout Standard
+\noindent
+The dynamics of the system are derived using Lagrangian mechanics.
+ We consider the slider has a mass 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$m$
+\end_layout
+
+\end_inset
+
+ and the inertia of motor driving the crank is 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$J$
+\end_layout
+
+\end_inset
+
+.
+ At this stage of the analysis we assume the crank arm and the connecting rod has no mass.
+ In the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$theta$
+\end_layout
+
+\end_inset
+
+ as the generalized co-ordinate system.
+\end_layout
+
+\begin_layout Standard
+\noindent
+The total kinetic energy of the system can be written as:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{split}
+\end_layout
+
+\begin_layout Plain Layout
+
+    T &= T_{
+\backslash
+rm motor} + T_{
+\backslash
+rm slider} 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+      &= 
+\backslash
+tfrac{1}{2} J
+\backslash
+,
+\backslash
+dot{
+\backslash
+theta}^2 + 
+\backslash
+tfrac{1}{2} m
+\backslash
+,
+\backslash
+dot{z}^2 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+      &= 
+\backslash
+tfrac{1}{2} J
+\backslash
+,
+\backslash
+dot{
+\backslash
+theta}^2 + 
+\backslash
+tfrac{1}{2} m
+\backslash
+,
+\backslash
+bigl( 
+\backslash
+tfrac{dz}{d
+\backslash
+theta} 
+\backslash
+bigr)^2 
+\backslash
+dot{
+\backslash
+theta}^2 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+      &= 
+\backslash
+tfrac{1}{2} 
+\backslash
+bigl( J + m
+\backslash
+,
+\backslash
+bigl( 
+\backslash
+tfrac{dz}{d
+\backslash
+theta} 
+\backslash
+bigr)^2 
+\backslash
+bigr) 
+\backslash
+dot{
+\backslash
+theta}^2
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{split}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+The potential energy of the system :
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+  V = mgz = mgr(
+\backslash
+sin(
+\backslash
+theta) + n
+\backslash
+cos(
+\backslash
+sin^{-1}
+\backslash
+!(
+\backslash
+frac{
+\backslash
+cos
+\backslash
+theta}{n}))
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Hence the Lagrangian of the system is :
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mathcal{L}(
+\backslash
+theta,
+ 
+\backslash
+dot{
+\backslash
+theta}) = 
+\backslash
+tfrac{1}{2} 
+\backslash
+left( J + m 
+\backslash
+left( 
+\backslash
+tfrac{dz}{d
+\backslash
+theta} 
+\backslash
+right)^2 
+\backslash
+right) 
+\backslash
+dot{
+\backslash
+theta}^2 - m g z(
+\backslash
+theta)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+label{eq:L}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+For the generalized co-ordinate system 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$q$
+\end_layout
+
+\end_inset
+
+,
+ the Euler-Lagrange equations are:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frac{d}{dt} 
+\backslash
+left( 
+\backslash
+frac{
+\backslash
+partial 
+\backslash
+mathcal{L}}{
+\backslash
+partial 
+\backslash
+dot{
+\backslash
+theta}} 
+\backslash
+right) - 
+\backslash
+frac{
+\backslash
+partial 
+\backslash
+mathcal{L}}{
+\backslash
+partial 
+\backslash
+theta} = Q
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Where,
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$Q$
+\end_layout
+
+\end_inset
+
+ represents the generalized force.
+ For our system,
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$q=
+\backslash
+theta$
+\end_layout
+
+\end_inset
+
+,
+ and thus required torque becomes 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$Q=
+\backslash
+tau$ 
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\noindent
+Substituting we get:
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{aligned}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tau 
+\end_layout
+
+\begin_layout Plain Layout
+
+&= 
+\backslash
+frac{d}{dt}
+\backslash
+Bigl(
+\backslash
+frac{
+\backslash
+partial 
+\backslash
+mathcal{L}}{
+\backslash
+partial 
+\backslash
+dot{
+\backslash
+theta}}
+\backslash
+Bigr)
+\end_layout
+
+\begin_layout Plain Layout
+
+  - 
+\backslash
+frac{
+\backslash
+partial 
+\backslash
+mathcal{L}}{
+\backslash
+partial 
+\backslash
+theta} 
+\backslash
+
+\backslash
+[8pt]
+\end_layout
+
+\begin_layout Plain Layout
+
+&= 
+\backslash
+frac{d}{dt}
+\backslash
+Bigl[(J + m
+\backslash
+,(z'(
+\backslash
+theta))^2)
+\backslash
+,
+\backslash
+dot{
+\backslash
+theta}
+\backslash
+Bigr]
+\end_layout
+
+\begin_layout Plain Layout
+
+  - 
+\backslash
+Bigl[
+\backslash
+tfrac12
+\backslash
+bigl(2m
+\backslash
+,z'(
+\backslash
+theta)
+\backslash
+,z''(
+\backslash
+theta)
+\backslash
+bigr)
+\backslash
+,
+\backslash
+dot{
+\backslash
+theta}^2
+\end_layout
+
+\begin_layout Plain Layout
+
+           - m g
+\backslash
+,z'(
+\backslash
+theta)
+\backslash
+Bigr] 
+\backslash
+
+\backslash
+[8pt]
+\end_layout
+
+\begin_layout Plain Layout
+
+&= (J + m
+\backslash
+,(z'(
+\backslash
+theta))^2)
+\backslash
+,
+\backslash
+ddot{
+\backslash
+theta}
+\end_layout
+
+\begin_layout Plain Layout
+
+  + 2m
+\backslash
+,z'(
+\backslash
+theta)
+\backslash
+,z''(
+\backslash
+theta)
+\backslash
+,
+\backslash
+dot{
+\backslash
+theta}^2
+\end_layout
+
+\begin_layout Plain Layout
+
+  - 
+\backslash
+bigl(m
+\backslash
+,z'(
+\backslash
+theta)
+\backslash
+,z''(
+\backslash
+theta)
+\backslash
+,
+\backslash
+dot{
+\backslash
+theta}^2 
+\end_layout
+
+\begin_layout Plain Layout
+
+         - m g
+\backslash
+,z'(
+\backslash
+theta)
+\backslash
+bigr) 
+\backslash
+
+\backslash
+[6pt]
+\end_layout
+
+\begin_layout Plain Layout
+
+&= (J + m
+\backslash
+,(z'(
+\backslash
+theta))^2)
+\backslash
+,
+\backslash
+ddot{
+\backslash
+theta}
+\end_layout
+
+\begin_layout Plain Layout
+
+  + m
+\backslash
+,z'(
+\backslash
+theta)
+\backslash
+,z''(
+\backslash
+theta)
+\backslash
+,
+\backslash
+dot{
+\backslash
+theta}^2
+\end_layout
+
+\begin_layout Plain Layout
+
+  + m g
+\backslash
+,z'(
+\backslash
+theta)
+\backslash
+,.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{aligned}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+label{eq:ID}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+Here,
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{aligned}
+\end_layout
+
+\begin_layout Plain Layout
+
+z'(
+\backslash
+theta)
+\end_layout
+
+\begin_layout Plain Layout
+
+  &= r
+\backslash
+cos
+\backslash
+theta
+\end_layout
+
+\begin_layout Plain Layout
+
+    + n r 
+\backslash
+biggl[-
+\backslash
+sin
+\backslash
+!
+\backslash
+bigl(
+\backslash
+sin^{-1}(
+\backslash
+tfrac{
+\backslash
+cos
+\backslash
+theta}{n})
+\backslash
+bigr)
+\backslash
+;
+\end_layout
+
+\begin_layout Plain Layout
+
+      
+\backslash
+frac{d}{d
+\backslash
+theta}
+\backslash
+sin^{-1}
+\backslash
+!
+\backslash
+bigl(
+\backslash
+tfrac{
+\backslash
+cos
+\backslash
+theta}{n}
+\backslash
+bigr)
+\backslash
+biggr] 
+\end_layout
+
+\begin_layout Plain Layout
+
+    = r
+\backslash
+cos
+\backslash
+theta
+\end_layout
+
+\begin_layout Plain Layout
+
+    + 
+\backslash
+frac{r
+\backslash
+,
+\backslash
+cos
+\backslash
+theta
+\backslash
+,
+\backslash
+sin
+\backslash
+theta}{
+\backslash
+sqrt{n^2-
+\backslash
+cos^2
+\backslash
+theta}},
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+z''(
+\backslash
+theta)
+\end_layout
+
+\begin_layout Plain Layout
+
+  &= -r
+\backslash
+sin
+\backslash
+theta
+\end_layout
+
+\begin_layout Plain Layout
+
+    + r
+\backslash
+Bigl(
+\backslash
+frac{
+\backslash
+cos2
+\backslash
+theta}{
+\backslash
+sqrt{n^2-
+\backslash
+cos^2
+\backslash
+theta}}
+\end_layout
+
+\begin_layout Plain Layout
+
+      - 
+\backslash
+frac{
+\backslash
+cos^2
+\backslash
+theta
+\backslash
+,
+\backslash
+sin^2
+\backslash
+theta}{(n^2-
+\backslash
+cos^2
+\backslash
+theta)^{3/2}}
+\backslash
+Bigr).
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{aligned}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
