@@ -499,10 +499,6 @@ status open
 
 \begin_layout Plain Layout
 
-\end_layout
-
-\begin_layout Plain Layout
-
 
 \backslash
 begin{figure}
@@ -512,7 +508,7 @@ begin{figure}
 
 
 \backslash
-begin{center}
+centering
 \end_layout
 
 \begin_layout Plain Layout
@@ -1027,13 +1023,6 @@ caption{Slider-crank mechanism}
     
 \backslash
 label{fig:SliderCrank}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{center}
 \end_layout
 
 \begin_layout Plain Layout
@@ -2654,6 +2643,10 @@ In order replicate the torso motion as accurately as possible,
  we must satisfy the position workspace requirements as well reproduce the g-forces experienced by a runner.
 \end_layout
 
+\begin_layout Paragraph
+Kinematic Requirements:
+\end_layout
+
 \begin_layout Standard
 From the inverse‐kinematics relation 
 \begin_inset ERT
@@ -2825,13 +2818,16 @@ end{equation}
 
 \end_layout
 
+\begin_layout Paragraph
+Dynamic Requirements:
+\end_layout
+
 \begin_layout Standard
-The maximum g-force is experienced,
- vertically,
- when the runner is at the lowest point in the trajectory.
+When a runner is running,
+ the maximum acceleration is experienced at the lowest point in the trajectory.
  To generate maximum acceleration,
  at the lowest point in the trajectory,
- the configuration dependent load inertia of the system must match the motor inertia in the load frame.
+ the configuration dependent load inertia of the system must roughly match the motor inertia in the load frame.
  From  
 \begin_inset ERT
 status open
@@ -2867,15 +2863,13 @@ J_{total}  = J + m
 \backslash
 frac{dz}{d
 \backslash
-theta})^2 = J + m(r
+theta})^2 = J + mr^2(
 \backslash
 cos
 \backslash
 theta+ 
 \backslash
-frac{r
-\backslash
-,
+frac{
 \backslash
 cos
 \backslash
@@ -2908,7 +2902,7 @@ end{equation}
 
 \begin_layout Standard
 Therefore,
- the condition for inertia matching is 
+ the condition for inertia matching is:
 \end_layout
 
 \begin_layout Standard
@@ -2924,7 +2918,40 @@ begin{equation}
 
 \begin_layout Plain Layout
 
-y
+ N_{J}=mr^2(
+\backslash
+cos
+\backslash
+theta+ 
+\backslash
+frac{
+\backslash
+cos
+\backslash
+theta
+\backslash
+,
+\backslash
+sin
+\backslash
+theta}{
+\backslash
+sqrt{n^2-
+\backslash
+cos^2
+\backslash
+theta}})^2|_{
+\backslash
+theta=
+\backslash
+theta_{min}} /J 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+label{eq:r_opt}
 \end_layout
 
 \begin_layout Plain Layout
@@ -2940,7 +2967,340 @@ end{equation}
 \end_layout
 
 \begin_layout Standard
+Fixing the slider mass at 
+\begin_inset ERT
+status open
 
+\begin_layout Plain Layout
+
+$m = 5
+\backslash
+,$
+\end_layout
+
+\end_inset
+
+kg and choosing the connecting‐rod‐to‐crank‐arm ratio
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+[
+\end_layout
+
+\begin_layout Plain Layout
+
+n = 3.5
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+(a representative value in the common literature range of 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$3$
+\end_layout
+
+\end_inset
+
+–
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$4$
+\end_layout
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+leaves the motor inertia 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$J$
+\end_layout
+
+\end_inset
+
+ as the sole design variable.
+ 
+\end_layout
+
+\begin_layout Standard
+The resulting inertia ratio
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+[
+\end_layout
+
+\begin_layout Plain Layout
+
+N_J(r,J)
+\end_layout
+
+\begin_layout Plain Layout
+
+= 
+\backslash
+frac{m
+\backslash
+,r^2
+\backslash
+Bigl(
+\backslash
+cos
+\backslash
+theta
+\end_layout
+
+\begin_layout Plain Layout
+
++ 
+\backslash
+dfrac{
+\backslash
+cos
+\backslash
+theta
+\backslash
+,
+\backslash
+sin
+\backslash
+theta}{
+\backslash
+sqrt{n^2 - 
+\backslash
+cos^2
+\backslash
+theta}}
+\backslash
+Bigr)^{2}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+Bigl
+\backslash
+lvert_{
+\backslash
+theta = 
+\backslash
+theta_{
+\backslash
+min}}}{J}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+must be unity for optimal dynamic matching.
+ Enforcing
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+[
+\end_layout
+
+\begin_layout Plain Layout
+
+N_J(r,J) = 1
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+therefore defines the optimal crank length
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+[
+\end_layout
+
+\begin_layout Plain Layout
+
+r_{
+\backslash
+mathrm{opt}} = r_{
+\backslash
+mathrm{opt}}(J)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+uniquely as a function of the motor inertia
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$J$
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Comparing between few commercially available servo motor we see:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{figure}[htbp]
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+includegraphics[width=0.6
+\backslash
+linewidth]{mspecSC.png}
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+caption{Your caption here}
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+label{fig:your_label}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{figure}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From the figure above,
+ we found 2 suitable motors,
+ 
+\begin_inset Quotes eld
+\end_inset
+
+GIM-8115-9
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+EC057C
+\begin_inset Quotes erd
+\end_inset
+
+.
 \end_layout
 
 \end_body
