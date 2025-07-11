@@ -5,6 +5,7 @@
 \usepackage[utf8]{inputenc}
 
 \makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 \usepackage{amsmath}
 \usepackage{pgfmath}
 \usepackage{tikz}
@@ -24,22 +25,26 @@
 \noindent This chapter presents a systematic, two-stage methodology
 for sizing and validating a rotary-actuated Stewart platform, starting
 with a one-degree-of-freedom analogue and ending with an optimized
-six-degree-of-freedom motion simulator.\medskip{}
+six-degree-of-freedom motion simulator.
+
+\noindent\smallskip
 
 \noindent In the first stage, we isolate the most demanding motion
 from the dataset, vertical translation along the  \textit{z}\nobreakdash-axis,
 using a single-axis slider-crank model
 
-\noindent We derive its forward and inverse kinematics to verify that
-the required workspace can be reached, then formulate the inverse
-dynamics to assess 
+\noindent We derive its forward and inverse kinematics, then formulate
+the inverse dynamics to find the optimal off-the-shelf servomotor
+that can meet the dynamic performance requirements.
 
-\noindent whether off-the-shelf servomotors can meet the dynamic performance
-requirements.\medskip{}
+\noindent\smallskip
 
-\noindent This analysis serves two purposes: it identifies which servos
-are capable of the task, and it establishes whether advancing to a
-full Stewart-platform architecture is justified.\medskip{}
+\noindent This analysis serves two purposes: firstly, it establishes
+whether a Stuart-platform motion simulator can deliver the required
+dynamic performance and secondly helps us to determine the suitable
+actuators.
+
+\noindent\smallskip
 
 \noindent In the second stage, we develop the complete Stewart-platform
 model. We derive its inverse kinematics to determine the geometric
@@ -56,7 +61,7 @@ the key performance targets that the platform must satisfy. Table
 below summarizes 
 
 \noindent the required translation, acceleration, and rotational limits
-in each axis along with fundamental associated frequencies.\medskip{}
+in each axis along with fundamental associated frequencies.
 
 \noindent\begin{table}[h]
 \centering
@@ -80,7 +85,7 @@ Linear Acceleration & Z & $-1g$ to $+6g$ & 3 \\
 \label{tab:torso_motion}
 \end{table}
 
-\noindent\medskip{}
+\noindent\smallskip
 
 \noindent From the table above, we use the translation and rotation
 features to define the kinematic workspace requirements and the linear
@@ -93,7 +98,9 @@ of three revolute joints and one prismatic joint. The kinematics and
 dynamics of a Stewart platform operating strictly along the vertical \textit{z}\nobreakdash-axis
 can be approximated using 6 identical slider-crank mechanisms, each
 contributing equally to the motion and load distribution(proof in
-appendix).\medskip{}
+appendix). 
+
+\noindent\medskip{}
 
 \noindent{}
 \begin{figure}
@@ -183,7 +190,7 @@ rod and the vertical $z$-axis.
 substituting $l=nr$ and solving for $\phi$ and we get-
 
 \noindent\begin{equation}
-\phi = \arcsin\left( \frac{\cos\theta}{n} \right)
+\phi = \sin^{-1}\left( \frac{\cos\theta}{n} \right)
 \end{equation}
 
 \noindent So the displacement equation becomes -
@@ -224,11 +231,13 @@ given the slider displacement $h$.
 
 \noindent The dynamics of the system are derived using Lagrangian
 mechanics. We consider the slider has a mass $m$ and the inertia
-of motor driving the crank is $J$. At this stage of the analysis
-we assume the crank arm and the connecting rod has no mass. In the
-$theta$ as the generalized co-ordinate system.
+of motor driving the crank is $J$ in the crank frame. At this stage
+of the analysis we assume the crank arm and the connecting rod has
+no mass. In the $theta$ as the generalized co-ordinate system.
 
 \noindent The total kinetic energy of the system can be written as:
+
+\noindent\medskip{}
 
 \noindent\begin{equation}
 \begin{split}
@@ -241,64 +250,92 @@ $theta$ as the generalized co-ordinate system.
 
 \noindent The potential energy of the system :
 
+\noindent\medskip{}
+
 \noindent\begin{equation}
   V = mgz = mgr(\sin(\theta) + n\cos(\sin^{-1}\!(\frac{\cos\theta}{n}))
 \end{equation}
 
 \noindent Hence the Lagrangian of the system is :
 
-\medskip{}
+\noindent\medskip{}
 
 \noindent\begin{equation}
-\mathcal{L}(\theta, \dot{\theta}) = \tfrac{1}{2} \left( J + m \left( \tfrac{dz}{d\theta} \right)^2 \right) \dot{\theta}^2 - m g z(\theta)
+\mathcal{L} = \tfrac{1}{2} \left( J + m \left( \tfrac{dz}{d\theta} \right)^2 \right) \dot{\theta}^2 - m g z(\theta)
 \label{eq:L}
 \end{equation}
 
 \noindent For the generalized co-ordinate system $q$, the Euler-Lagrange
 equations are:
 
-\medskip{}
+\noindent\medskip{}
 
 \noindent\begin{equation}
 \frac{d}{dt} \left( \frac{\partial \mathcal{L}}{\partial \dot{\theta}} \right) - \frac{\partial \mathcal{L}}{\partial \theta} = Q
 \end{equation}
 
 \noindent Where, $Q$ represents the generalized force. For our system,
-$q=\theta$, and thus required torque becomes $Q=\tau$ .
+$q=\theta$, and thus required torque becomes $Q=\tau$ .Substituting
+we get:
 
-\noindent Substituting we get:\medskip{}
+\noindent\medskip{}
 
 \noindent\begin{equation}
 \begin{aligned}
 \tau 
 &= \frac{d}{dt}\Bigl(\frac{\partial \mathcal{L}}{\partial \dot{\theta}}\Bigr)
   - \frac{\partial \mathcal{L}}{\partial \theta} \\[8pt]
-&= \frac{d}{dt}\Bigl[(J + m\,(z'(\theta))^2)\,\dot{\theta}\Bigr]
-  - \Bigl[\tfrac12\bigl(2m\,z'(\theta)\,z''(\theta)\bigr)\,\dot{\theta}^2
-           - m g\,z'(\theta)\Bigr] \\[8pt]
-&= (J + m\,(z'(\theta))^2)\,\ddot{\theta}
-  + 2m\,z'(\theta)\,z''(\theta)\,\dot{\theta}^2
-  - \bigl(m\,z'(\theta)\,z''(\theta)\,\dot{\theta}^2 
-         - m g\,z'(\theta)\bigr) \\[6pt]
-&= (J + m\,(z'(\theta))^2)\,\ddot{\theta}
-  + m\,z'(\theta)\,z''(\theta)\,\dot{\theta}^2
-  + m g\,z'(\theta)\,.
+&= \frac{d}{dt}\Bigl[(J + m\,(\frac{dz}{d\theta})^2)\,\dot{\theta}\Bigr]
+  - \Bigl[\tfrac12\bigl(2m\,\frac{dz}{d\theta}\,\frac{d^2z}{d\theta^2}\bigr)\,\dot{\theta}^2
+           - m g\,\frac{dz}{d\theta}\Bigr] \\[8pt]
+&= (J + m\,(\frac{dz}{d\theta})^2)\,\ddot{\theta}
+  + 2m\,\frac{dz}{d\theta}\,\frac{d^2z}{d\theta^2}\,\dot{\theta}^2
+  - \bigl(m\,\frac{dz}{d\theta}\,\frac{d^2z}{d\theta^2}\,\dot{\theta}^2 
+         - m g\,\frac{dz}{d\theta}\bigr) \\[6pt]
+&= (J + m\,(\frac{dz}{d\theta})^2)\,\ddot{\theta}
+  + m\,\frac{dz}{d\theta}\,\frac{d^2z}{d\theta^2}\,\dot{\theta}^2
+  + m g\,\frac{dz}{d\theta}\,.
 \end{aligned}
 \label{eq:ID}
 \end{equation}Here,
 
 \noindent\begin{equation}
 \begin{aligned}
-z'(\theta)
+\frac{dz}{d\theta}
   &= r\cos\theta
     + n r \biggl[-\sin\!\bigl(\sin^{-1}(\tfrac{\cos\theta}{n})\bigr)\;
       \frac{d}{d\theta}\sin^{-1}\!\bigl(\tfrac{\cos\theta}{n}\bigr)\biggr] 
     = r\cos\theta
     + \frac{r\,\cos\theta\,\sin\theta}{\sqrt{n^2-\cos^2\theta}},\\
-z''(\theta)
+\frac{d^2z}{d\theta^2}
   &= -r\sin\theta
     + r\Bigl(\frac{\cos2\theta}{\sqrt{n^2-\cos^2\theta}}
       - \frac{\cos^2\theta\,\sin^2\theta}{(n^2-\cos^2\theta)^{3/2}}\Bigr).
 \end{aligned}
 \end{equation}
+
+\subsubsection{Optimal Configuration:}
+
+In order replicate the torso motion as accurately as possible, we
+must satisfy the position workspace requirements as well reproduce
+the g-forces experienced by a runner.To satisfy the kinematics worksapce
+
+The maximum g-force is experienced, vertically, when the runner is
+at the lowest point in the trajectory. To generate maximum acceleration,
+at the lowest point in the trajectory, the configuration dependent
+load inertia of the system must match the motor inertia in the load
+frame. From Equation $\ref{eq:ID}$ we find the the total effective
+inertia of the system:
+
+\begin{equation}
+J_{total}  = J + m\,(\frac{dz}{d\theta})^2 = J + m(r\cos\theta+ \frac{r\,\cos\theta\,\sin\theta}{\sqrt{n^2-\cos^2\theta}})^2
+\end{equation}
+
+Therefore, the condition for inertia matching is 
+
+\begin{equation}
+y
+\end{equation}
+
+
 \end{document}

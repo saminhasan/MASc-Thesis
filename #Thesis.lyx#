@@ -2652,6 +2652,8 @@ Optimal Configuration:
 \begin_layout Standard
 In order replicate the torso motion as accurately as possible,
  we must satisfy the position workspace requirements as well reproduce the g-forces experienced by a runner.
+ For our project,
+ 
 \end_layout
 
 \begin_layout Standard

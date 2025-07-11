@@ -114,6 +114,10 @@ Feasibility Study
 This chapter presents a systematic,
  two-stage methodology for sizing and validating a rotary-actuated Stewart platform,
  starting with a one-degree-of-freedom analogue and ending with an optimized six-degree-of-freedom motion simulator.
+\end_layout
+
+\begin_layout Standard
+\noindent
 \begin_inset ERT
 status open
 
@@ -121,7 +125,7 @@ status open
 
 
 \backslash
-medskip{}
+smallskip
 \end_layout
 
 \end_inset
@@ -154,13 +158,12 @@ nobreakdash-axis
 
 \begin_layout Standard
 \noindent
-We derive its forward and inverse kinematics to verify that the required workspace can be reached,
- then formulate the inverse dynamics to assess 
+We derive its forward and inverse kinematics,
+ then formulate the inverse dynamics to find the optimal off-the-shelf servomotor that can meet the dynamic performance requirements.
 \end_layout
 
 \begin_layout Standard
 \noindent
-whether off-the-shelf servomotors can meet the dynamic performance requirements.
 \begin_inset ERT
 status open
 
@@ -168,7 +171,7 @@ status open
 
 
 \backslash
-medskip{}
+smallskip
 \end_layout
 
 \end_inset
@@ -179,8 +182,12 @@ medskip{}
 \begin_layout Standard
 \noindent
 This analysis serves two purposes:
- it identifies which servos are capable of the task,
- and it establishes whether advancing to a full Stewart-platform architecture is justified.
+ firstly,
+ it establishes whether a Stuart-platform motion simulator can deliver the required dynamic performance and secondly helps us to determine the suitable actuators.
+\end_layout
+
+\begin_layout Standard
+\noindent
 \begin_inset ERT
 status open
 
@@ -188,7 +195,7 @@ status open
 
 
 \backslash
-medskip{}
+smallskip
 \end_layout
 
 \end_inset
@@ -227,19 +234,6 @@ From the processed torso‐motion data-set,
 the required translation,
  acceleration,
  and rotational limits in each axis along with fundamental associated frequencies.
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-medskip{}
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -439,7 +433,7 @@ status open
 
 
 \backslash
-medskip{}
+smallskip
 \end_layout
 
 \end_inset
@@ -478,6 +472,11 @@ nobreakdash-axis
 
  can be approximated using 6 identical slider-crank mechanisms,
  each contributing equally to the motion and load distribution(proof in appendix).
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
 \begin_inset ERT
 status open
 
@@ -1044,10 +1043,6 @@ end{center}
 end{figure}
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -1318,7 +1313,7 @@ begin{equation}
 \backslash
 phi = 
 \backslash
-arcsin
+sin^{-1}
 \backslash
 left( 
 \backslash
@@ -1409,15 +1404,14 @@ end{equation}
 
 \begin_layout Standard
 \noindent
-Equation
 \begin_inset ERT
 status open
 
 \begin_layout Plain Layout
 
-$
+$Eq.~
 \backslash
-eqref{FK}$
+eqref{eq:FK}$
 \end_layout
 
 \end_inset
@@ -1676,7 +1670,7 @@ $J$
 
 \end_inset
 
-.
+ in the crank frame.
  At this stage of the analysis we assume the crank arm and the connecting rod has no mass.
  In the 
 \begin_inset ERT
@@ -1695,6 +1689,23 @@ $theta$
 \begin_layout Standard
 \noindent
 The total kinetic energy of the system can be written as:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip{}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1843,6 +1854,23 @@ status open
 
 
 \backslash
+medskip{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
 begin{equation}
 \end_layout
 
@@ -1885,6 +1913,7 @@ Hence the Lagrangian of the system is :
 \end_layout
 
 \begin_layout Standard
+\noindent
 \begin_inset ERT
 status open
 
@@ -1916,14 +1945,7 @@ begin{equation}
 
 
 \backslash
-mathcal{L}(
-\backslash
-theta,
- 
-\backslash
-dot{
-\backslash
-theta}) = 
+mathcal{L} = 
 \backslash
 tfrac{1}{2} 
 \backslash
@@ -1983,6 +2005,7 @@ $q$
 \end_layout
 
 \begin_layout Standard
+\noindent
 \begin_inset ERT
 status open
 
@@ -2098,12 +2121,11 @@ tau$
 
 \end_inset
 
-.
+.Substituting we get:
 \end_layout
 
 \begin_layout Standard
 \noindent
-Substituting we get:
 \begin_inset ERT
 status open
 
@@ -2195,9 +2217,11 @@ frac{d}{dt}
 \backslash
 Bigl[(J + m
 \backslash
-,(z'(
+,(
 \backslash
-theta))^2)
+frac{dz}{d
+\backslash
+theta})^2)
 \backslash
 ,
 \backslash
@@ -2218,13 +2242,17 @@ tfrac12
 \backslash
 bigl(2m
 \backslash
-,z'(
+,
 \backslash
-theta)
+frac{dz}{d
 \backslash
-,z''(
+theta}
 \backslash
-theta)
+,
+\backslash
+frac{d^2z}{d
+\backslash
+theta^2}
 \backslash
 bigr)
 \backslash
@@ -2239,9 +2267,11 @@ theta}^2
 
            - m g
 \backslash
-,z'(
+,
 \backslash
-theta)
+frac{dz}{d
+\backslash
+theta}
 \backslash
 Bigr] 
 \backslash
@@ -2254,9 +2284,11 @@ Bigr]
 
 &= (J + m
 \backslash
-,(z'(
+,(
 \backslash
-theta))^2)
+frac{dz}{d
+\backslash
+theta})^2)
 \backslash
 ,
 \backslash
@@ -2269,13 +2301,17 @@ theta}
 
   + 2m
 \backslash
-,z'(
+,
 \backslash
-theta)
+frac{dz}{d
 \backslash
-,z''(
+theta}
 \backslash
-theta)
+,
+\backslash
+frac{d^2z}{d
+\backslash
+theta^2}
 \backslash
 ,
 \backslash
@@ -2290,13 +2326,17 @@ theta}^2
 \backslash
 bigl(m
 \backslash
-,z'(
+,
 \backslash
-theta)
+frac{dz}{d
 \backslash
-,z''(
+theta}
 \backslash
-theta)
+,
+\backslash
+frac{d^2z}{d
+\backslash
+theta^2}
 \backslash
 ,
 \backslash
@@ -2309,9 +2349,11 @@ theta}^2
 
          - m g
 \backslash
-,z'(
+,
 \backslash
-theta)
+frac{dz}{d
+\backslash
+theta}
 \backslash
 bigr) 
 \backslash
@@ -2324,9 +2366,11 @@ bigr)
 
 &= (J + m
 \backslash
-,(z'(
+,(
 \backslash
-theta))^2)
+frac{dz}{d
+\backslash
+theta})^2)
 \backslash
 ,
 \backslash
@@ -2339,13 +2383,17 @@ theta}
 
   + m
 \backslash
-,z'(
+,
 \backslash
-theta)
+frac{dz}{d
 \backslash
-,z''(
+theta}
 \backslash
-theta)
+,
+\backslash
+frac{d^2z}{d
+\backslash
+theta^2}
 \backslash
 ,
 \backslash
@@ -2358,9 +2406,11 @@ theta}^2
 
   + m g
 \backslash
-,z'(
+,
 \backslash
-theta)
+frac{dz}{d
+\backslash
+theta}
 \backslash
 ,.
 \end_layout
@@ -2412,9 +2462,11 @@ begin{aligned}
 
 \begin_layout Plain Layout
 
-z'(
+
 \backslash
-theta)
+frac{dz}{d
+\backslash
+theta}
 \end_layout
 
 \begin_layout Plain Layout
@@ -2516,9 +2568,11 @@ theta}},
 
 \begin_layout Plain Layout
 
-z''(
+
 \backslash
-theta)
+frac{d^2z}{d
+\backslash
+theta^2}
 \end_layout
 
 \begin_layout Plain Layout
@@ -2588,6 +2642,300 @@ end{equation}
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Subsubsection
+Optimal Configuration:
+\end_layout
+
+\begin_layout Standard
+In order replicate the torso motion as accurately as possible,
+ we must satisfy the position workspace requirements as well reproduce the g-forces experienced by a runner.From the inverse‐kinematics relation 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$Eq.~
+\backslash
+eqref{eq:IK}$
+\end_layout
+
+\end_inset
+
+,
+ the crank radius 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$r$
+\end_layout
+
+\end_inset
+
+ must satisfy:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+[
+\end_layout
+
+\begin_layout Plain Layout
+
+z(
+\backslash
+theta)
+\end_layout
+
+\begin_layout Plain Layout
+
+= r
+\backslash
+sin
+\backslash
+theta 
+\backslash
+;+
+\backslash
+;
+ n
+\backslash
+,r
+\backslash
+cos
+\backslash
+!
+\backslash
+Bigl(
+\backslash
+sin^{-1}
+\backslash
+!(
+\backslash
+tfrac{
+\backslash
+cos
+\backslash
+theta}{n})
+\backslash
+Bigr)
+\end_layout
+
+\begin_layout Plain Layout
+
+= 
+\backslash
+pm4
+\backslash
+;
+\backslash
+mathrm{cm}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+quad
+\backslash
+text{at}
+\backslash
+quad
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+theta = 
+\backslash
+pm
+\backslash
+frac{
+\backslash
+pi}{2}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This yields,
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+r_{
+\backslash
+min} 
+\backslash
+;=
+\backslash
+;
+ 4
+\backslash
+;
+\backslash
+mathrm{cm}.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The maximum g-force is experienced,
+ vertically,
+ when the runner is at the lowest point in the trajectory.
+ To generate maximum acceleration,
+ at the lowest point in the trajectory,
+ the configuration dependent load inertia of the system must match the motor inertia in the load frame.
+ From  
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$Eq.~
+\backslash
+eqref{eq:ID}$
+\end_layout
+
+\end_inset
+
+ we find the the total effective inertia of the system:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+J_{total}  = J + m
+\backslash
+,(
+\backslash
+frac{dz}{d
+\backslash
+theta})^2 = J + m(r
+\backslash
+cos
+\backslash
+theta+ 
+\backslash
+frac{r
+\backslash
+,
+\backslash
+cos
+\backslash
+theta
+\backslash
+,
+\backslash
+sin
+\backslash
+theta}{
+\backslash
+sqrt{n^2-
+\backslash
+cos^2
+\backslash
+theta}})^2
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Therefore,
+ the condition for inertia matching is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+y
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 
 \end_layout
 
