@@ -1,0 +1,4178 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{amsmath}
+\usepackage{pgfmath}
+\usepackage{tikz}
+\usepackage{kinematikz}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children no
+\language canadian
+\language_package default
+\inputencoding utf8
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008080
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content true
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Section
+\noindent
+Introduction
+\end_layout
+
+\begin_layout Standard
+This thesis documents the development of a six-degree-of-freedom motion simulator platform designed to replicate realistic human torso movements for sports bra comfort testing.
+ The physical configuration of the motion simulator was determined using motion data from the Human Motion Biomechanics Laboratory
+\end_layout
+
+\begin_layout Standard
+Quantifying sports bra comfort requires a reliable test system for motion simulation.A six-degree-of-freedom motion simulator presents an ideal solution,
+ as it allows reproduction of torso motion.The proposed simulator serves as a mechanical testbed for analyzing how bras perform under repeated,
+ high-intensity movements like running.
+ By simulating real-world movements in a controlled lab environment,
+ the platform enables objective,
+ repeatable comfort assessments that are otherwise difficult to quantify.
+\end_layout
+
+\begin_layout Paragraph
+Background and Motivation
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Commercially available motion platforms fall short in delivering the necessary combination of travel range,
+ speed and high dynamic responsiveness required for torso motion simulation.
+ Existing solutions lack of a mechanism for optimizing for different motion simulation requirements.
+\end_layout
+
+\begin_layout Standard
+To address these challenges,
+ a custom Stewart platform motion simulator was developed using servo motors.
+ The chosen configuration enables the accurate and repeatable reproduction of bio-mechanical motion profiles with high dynamic loading,
+ offering a cost-effective solution and high-performance.
+\end_layout
+
+\begin_layout Paragraph
+Novelty
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Although Stewart platforms are a well-established architecture,
+ our implementation introduces key innovations tailored to biomechanical comfort testing.
+ Each high-torque,
+ backdrivable servo motor drives a servo arm with adjustable length.
+ This adjustability allows for mechanical impedance matching between the actuators and various payloads,
+ optimizing dynamic performance and enabling high G-forces without requiring oversized motors.
+\end_layout
+
+\begin_layout Standard
+Once the servo arm length is set for impedance matching,
+ the length of each kinematic leg,
+ connected via Heim joints,
+ can be adjusted as needed to preserve the platform’s required range of motion.
+\end_layout
+
+\begin_layout Standard
+Together,
+ these features result in a high-performance,
+ cost effective motion simulator that exceeds the capabilities of commercial alternatives while maintaining flexibility.
+\end_layout
+
+\begin_layout Paragraph
+Thesis Outline
+\begin_inset Newline newline
+\end_inset
+
+TBD
+\end_layout
+
+\begin_layout Section
+\noindent
+Literature Review
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{The biomechanics of running}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Running is a form of locomotion that involves a consistent sequence of short aerial hops and ground contact.
+ This sequence of patterns,
+ known as gait,
+ forms a cycle,
+ which begins when any one foot contacts the ground and ends when that same foot contacts the ground again.
+\end_layout
+
+\begin_layout Standard
+\noindent
+For this study we consider the steady-state stage of running,
+ where the forward velocity of the runner remains relatively constant.
+ During steady-state ,
+ the gait cycle consists of two main phases:
+ the stance phase and the swing phase.(Novacheck,
+ 1998)
+\end_layout
+
+\begin_layout Standard
+\noindent
+In the stance phase the foot contacts the ground and transmits force through the body.
+ In this phase.
+ As the foot strikes during stance,
+ the whole body experiences rapid deceleration spike followed by re-acceleration during push-off,
+ along the vertical Z axis,
+ with each step.
+\end_layout
+
+\begin_layout Standard
+\noindent
+In the swing phase,
+ where no part of the body is in ground contact,
+ only wind resistance acts on the runner.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Breast Tissue Dynamics During Running}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+The female breast lacks skeletal attachment and is composed primarily of soft tissues suspended by skin and connective ligaments.
+ During running,
+ ground reaction and inertial forces cause the breasts to move independently of the torso in three dimensions- superoinferiorly,
+ mediolaterally,
+ and anteroposteriorly (White,
+ Scurr,
+ & Risius,
+ 2009).
+\end_layout
+
+\begin_layout Standard
+\noindent
+Magnitude and direction:
+ In un-supported conditions,
+ superoinferior displacement can exceed 4 cm,
+ with mediolateral and anteroposterior motions of 3–4 cm per step (Scurr,
+ White,
+ & Hedger,
+ 2009).
+\end_layout
+
+\begin_layout Standard
+\noindent
+Soft-tissue vibrations:
+ Impact-induced shock waves traverse the body,
+ reaching the breast tissue,
+ which lacks muscular damping.
+ These vibrations can amplify tissue strain and contribute to discomfort or pain (Hamill et al.,
+ 2012).
+\end_layout
+
+\begin_layout Standard
+\noindent
+Time-lag:
+ The breast mass often lags behind torso motion,
+ resulting in relative phase differences that exacerbate shear within the tissue (Scurr et al.,
+ 2009).
+\end_layout
+
+\begin_layout Standard
+\noindent
+Uncontrolled breast motion during high-intensity running has been linked to exercise-induced breast pain,
+ skin irritation,
+ and even ptosis (Scurr et al.,
+ 2010;
+ McGhee & Steele,
+ 2020).
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Motion Simulation and Comfort}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Current sports bra research primarily relies on subjective evaluation methods.
+ Typically,
+ human subjects wear the bra while walking or running on a treadmill,
+ during which breast motion and perceived comfort are assessed (Zhou et al.,
+ 2011).
+ However,
+ these human trials suffer from major limitations:
+ inconsistency between participants,
+ difficulty in standardizing motion,
+ challenges in recruitment due to variations in body shape,
+ breast size,
+ and health,
+ and discomfort due to the requirement of testing without a bra.
+ Even with advanced motion capture,
+ inter-subject variability remains a significant confounding factor.
+\end_layout
+
+\begin_layout Standard
+\noindent
+To overcome these issues,
+ researchers have begun to explore the use of manikins as controlled surrogates for human participants.
+ Lee et al.
+ (2021) developed a breast motion simulator using a silicone-based torso composed of Ecoflex 00–30 and PDMS to mimic the mechanical properties of breast tissue.
+ Their system enabled vertical displacement of the manikin to approximate running-induced breast motion under repeatable conditions,
+ offering a more objective platform for evaluating sports bra performance.
+ More recently,
+ Hui et al.
+ (2024) advanced this approach by combining a soft-breast manikin with a 6-degree-of-freedom robotic arm to replicate torso motion derived from motion capture data.
+ Their results demonstrated that this setup could closely approximate human breast dynamics,
+ both in amplitude and phase,
+ enabling objective comparisons between bra designs.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+Building on this concept,
+ combining a synthetic manikin with a programmable motion simulator offers a promising pathway forward.
+ By affixing validated soft-tissue analogs to a rigid 3D-printed torso and mounting the assembly on a motion platform,
+ complex,
+ real-world movement patterns can be simulated in a controlled and repeatable manner.
+ This hybrid approach preserves the material realism of the breast model while eliminating human subject variability from the evaluation loop.
+\end_layout
+
+\begin_layout Standard
+\noindent
+Replicating torso motion requires a motion simulator platform with 6-axis control,
+ and high dynamic performance and adequate range of motion.
+ Several types of motion simulation technologies exist,
+ each with different trade-offs in stiffness,
+ range of motion,
+ force capability,
+ and control complexity.
+ The following section reviews different motion simulation platforms.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Motion Simulation Platforms}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsubsection{Shake Tables}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Shake tables are traditionally used for structural vibration testing and earthquake simulation.
+ These platforms typically use one to three degrees of freedom,
+ driven by high-force linear actuators,
+ to simulate ground motion over relatively low-frequency ranges.
+\end_layout
+
+\begin_layout Standard
+\noindent
+While they excel in delivering controlled vibration and large payload capacity,
+ shake tables are limited in their suitability for torso motion simulation,
+ For the following reasons:
+\end_layout
+
+\begin_layout Standard
+\noindent
+-Lack of range of motion.
+\end_layout
+
+\begin_layout Standard
+\noindent
+-Lack of orientation control (pitch,
+ yaw,
+ roll),
+ which is critical when replicating 6-DOF torso movements.
+\end_layout
+
+\begin_layout Standard
+\noindent
+Due to these constraints,
+ shake tables are inadequate for simulating dynamic upper-body motion during running,
+ particularly when rotational components are involved.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsubsection{Serial Manipulators}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Serial manipulators,
+ such as industrial robotic arms,
+ offer a high degree of flexibility and cover a large workspace.
+ They are composed of serially linked actuated joints,
+ each contributing to the total degrees of freedom.However,
+ serial manipulators are not an ideal choice for replicating high-speed biomechanical motion due to several fundamental limitations.
+\end_layout
+
+\begin_layout Standard
+\noindent
+In a 6-DOF robotic arm,
+ the torque requirement increases significantly on joints closer to the base,
+ as they must support and accelerate all downstream motors,
+ links and the payload.
+ When simulating 6g accelerations,
+ this compounded torque demand becomes a bottleneck,
+ particularly when the end effector carries a heavy test object,
+ such as a sensor-instrumented dummy torso.
+\end_layout
+
+\begin_layout Standard
+\noindent
+Typically,
+ serial manipulators are optimized for large and flexible workspaces,
+ but only a small portion of that space will be utilized for simulating torso motion,
+ making them inefficient in both size and power usage.
+ While such arms can theoretically be configured for 6-DOF motion replication,
+ doing so would require oversized actuators and special structural considerations,
+ resulting in unnecessary complexity.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsubsection{Stewart Platform}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Stewart platforms,
+ a class of parallel manipulators,
+ offer full six-degree-of-freedom motion through six independent kinematic legs connecting a fixed base to a moving platform.
+ Traditionally,
+ these legs use prismatic actuators,
+ arranged in SPS (spherical–prismatic–spherical) or UPS (universal–prismatic–spherical) joint configurations,
+ to directly vary leg lengths.
+ These systems are well-known for their high structural stiffness,
+ good dynamic response,
+ and excellent load distribution,
+ making them especially suitable for applications requiring fast,
+ precise,
+ and repeatable 6-DOF motion.
+\end_layout
+
+\begin_layout Standard
+\noindent
+However,
+ classic Stewart platforms with linear actuators suffer from inherent limitations:
+ the inability to match inertia.
+ These shortcomings are particularly problematic when simulating a highly dynamic motion profile,
+ such as the human torso when running.
+\end_layout
+
+\begin_layout Standard
+\noindent
+To overcome these limitations,
+ the platform developed in this study employs a modified Stewart architecture with six high-torque rotary servo motors.
+ This rotary-actuated design maintains the essential characteristics of a parallel manipulator,closed-loop kinematic chains,
+ simultaneous actuation,
+ and full 6-DOF control.
+\end_layout
+
+\begin_layout Standard
+\noindent
+Unlike traditional SPS configurations,
+ where each leg consists of a single variable-length actuator,
+ this system uses servo arms with fixed linkage geometry to control leg length indirectly.
+ The servo arms are connected to the platform through passive joints (e.g.,
+ Heim joints),
+ preserving rotational freedom at the ends of each leg.
+ This approach brings several key advantages:
+\end_layout
+
+\begin_layout Standard
+\noindent
+Mechanical impedance matching:
+ The servo arm length can be tuned to match the dynamic requirements of various payloads.
+\end_layout
+
+\begin_layout Standard
+\noindent
+Improved actuator placement:
+ Rotary motors are mounted at the base,
+ reducing moving mass and allowing better dynamics and structural integration.
+\end_layout
+
+\begin_layout Standard
+\noindent
+Lower effective inertia:
+ Compared to serial manipulators,
+ load is distributed across the 6 actuators,
+ improving dynamic performance potential.
+\end_layout
+
+\begin_layout Standard
+\noindent
+The custom configuration used here represents a non-traditional but functionally equivalent approach that retains the advantages of parallel kinematics while addressing the limitations of linear actuation for dynamic biomechanical simulation.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Data Collection}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+In this study,
+ the dataset was provided by the Human Motion Biomechanics Laboratory.
+ Inertial Measurement Unit (IMU) data,
+ sampled at 1 kHz,
+ was collected from soccer players during overground running trials.
+ This dataset was used to estimate torso motion along the vertical axis.
+\end_layout
+
+\begin_layout Standard
+\noindent
+The linear acceleration measured by the IMU was numerically integrated twice with respect to time to reconstruct the vertical position.
+ To mitigate sensor drift and integration noise,
+ a low-pass filter was applied during post-processing.
+ This filtering procedure enabled accurate recovery of the torso’s vertical displacement profile,
+ particularly capturing the deceleration spikes that occur during foot-ground impacts,an essential feature that was absent in the corresponding optical motion capture dataset.
+\end_layout
+
+\begin_layout Standard
+\noindent
+To obtain torso orientation,
+ the IMU’s gyroscope and accelerometer data were processed using MATLAB’s built-in AHRSFilter algorithm,
+ which performs sensor fusion to estimate orientation.
+ This approach provided a reliable estimation of 3D orientation throughout the running sequence.
+\end_layout
+
+\begin_layout Standard
+\noindent
+Insights from the data:
+\end_layout
+
+\begin_layout Standard
+\noindent
+Typical running gaits occur at frequencies between 2.5 and 3 Hz,
+ with acceleration spikes corresponding to a ground contact event.
+ Based on observed vertical torso accelerations,
+ the motion simulator must be capable of reproducing motion profiles with peaks up to 6 G in the vertical direction.These acceleration peaks contain a high frequency contents of up to 30 Hz
+\end_layout
+
+\begin_layout Standard
+\noindent
+By reproducing the above mentioned motion profile,
+ the motion simulator will enable objective,
+ repeatable comfort testing under conditions that closely mimic real running dynamics.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Conclusion}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+In evaluating simulation technologies,
+ shake tables were found to lack the necessary range of motion and rotational capability,
+ rendering them unsuitable.
+ Serial manipulators,
+ while offering flexibility,
+ suffer from poor stiffness,
+ high actuator torque loads,
+ and inefficient use of workspace for the biomechanical domain.
+ These limitations become critical when reproducing high-dynamic torso motion with heavy payloads,
+ such as an instrumented dummy.
+\end_layout
+
+\begin_layout Standard
+\noindent
+The Stewart platform,
+ in contrast,
+ provides full 6-DOF motion,
+ superior dynamic response,
+ and parallel load distribution.
+ Its closed-loop kinematics and inherent stiffness make it ideal for high-acceleration,
+ high-precision tasks.But commercially available are not designed to provide the large acceleration and range of motion simultaneously.
+\end_layout
+
+\begin_layout Standard
+\noindent
+To address these issues,
+ this study adopts a rotary-actuated Stewart platform,
+ wherein high-torque servo motors drive linkage arms to indirectly modulate the effective leg lengths.
+ This configuration preserves the structural rigidity and kinematic decoupling inherent to the classical Stewart platform design.
+\end_layout
+
+\begin_layout Standard
+\noindent
+By appropriately selecting and optimizing the arm length of the rotary actuators,
+ mechanical impedance matching can be readily achieved for a wide range of motors,
+ payloads,
+ and reference trajectories.
+ This enables the use of relatively compact actuators operating at high utilization,
+ leading to improvements in energy efficiency and overall cost-effectiveness.
+\end_layout
+
+\begin_layout Standard
+\noindent
+Consequently,
+ the proposed platform is well-suited to replicate the high-frequency,
+ high-acceleration demands of human running motion,
+ making it particularly advantageous for biomechanical testing applications.
+\end_layout
+
+\begin_layout Section
+\noindent
+Feasibility Study
+\end_layout
+
+\begin_layout Standard
+\noindent
+This chapter presents a systematic,
+ two-stage methodology for sizing and validating a rotary-actuated Stewart platform,
+ starting with a one-degree-of-freedom analogue and ending with an optimized six-degree-of-freedom motion simulator.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+smallskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+In the first stage,
+ we isolate the most demanding motion from the dataset,
+ vertical translation along the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+ 
+\backslash
+textit{z}
+\backslash
+nobreakdash-axis
+\end_layout
+
+\end_inset
+
+,
+ using a single-axis slider-crank model
+\end_layout
+
+\begin_layout Standard
+\noindent
+We derive its forward and inverse kinematics,
+ then formulate the inverse dynamics to find the optimal off-the-shelf servomotor that can meet the dynamic performance requirements.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+smallskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+This analysis serves two purposes:
+ firstly,
+ it establishes whether a Stuart-platform motion simulator can deliver the required dynamic performance and secondly helps us to determine the suitable actuators.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+smallskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+In the second stage,
+ we develop the complete Stewart-platform model.
+ We derive its inverse kinematics to determine the geometric parameters
+\end_layout
+
+\begin_layout Standard
+\noindent
+required to span the entire 6-DOF workspace.
+ Building on that,
+ we formulate the inverse dynamics and optimize the platform for maximum dynamic performance.
+\end_layout
+
+\begin_layout Subsection
+\noindent
+Operational Envelope:
+\end_layout
+
+\begin_layout Standard
+\noindent
+From the processed torso‐motion data-set,
+ we identified the key performance targets that the platform must satisfy.
+ Table below summarizes 
+\end_layout
+
+\begin_layout Standard
+\noindent
+the required translation,
+ acceleration,
+ and rotational limits in each axis along with fundamental associated frequencies.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{table}[h]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tabular}{cccc}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Feature} & 
+\backslash
+textbf{Axis} & 
+\backslash
+textbf{Value} & 
+\backslash
+textbf{Fundamental Frequency (Hz)} 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+Translation & Z & $
+\backslash
+pm$4 cm & 3 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+Rotation & Z (transverse) & $
+\backslash
+pm$15.5$^
+\backslash
+circ$ & 1.5 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+Rotation & Y (sagittal) & $
+\backslash
+pm$2.5$^
+\backslash
+circ$ & 3 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+Rotation & X (frontal) & $
+\backslash
+pm$3.0$^
+\backslash
+circ$ & 1.5 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+Linear Acceleration & Z & $-1g$ to $+6g$ & 3 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tabular}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+caption{Torso Motion Dataset}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+label{tab:torso_motion}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{table}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+smallskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+From the table above,
+ we use the translation and rotation features to define the kinematic workspace requirements and the linear acceleration feature for determining the dynamic requirements.
+\end_layout
+
+\begin_layout Subsection
+\noindent
+1-DOF Analysis(Pick a good name):
+\end_layout
+
+\begin_layout Standard
+\noindent
+A slider-crank mechanism is a four-link system composed of three revolute joints and one prismatic joint.
+ The kinematics and dynamics of a Stewart platform operating strictly along the vertical
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+ 
+\backslash
+textit{z}
+\backslash
+nobreakdash-axis
+\end_layout
+
+\end_inset
+
+ can be approximated using 6 identical slider-crank mechanisms,
+ each contributing equally to the motion and load distribution(proof in appendix).
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{figure}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+  % === Parameters ===
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pgfmathsetmacro{
+\backslash
+R}{2}           % Crank length r
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pgfmathsetmacro{
+\backslash
+N}{2.5}         % Link ratio n
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pgfmathsetmacro{
+\backslash
+Angle}{40}      % Crank angle in degrees
+\end_layout
+
+\begin_layout Plain Layout
+
+  % === Trig Evaluation ===
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pgfmathsetmacro{
+\backslash
+ct}{cos(
+\backslash
+Angle)}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pgfmathsetmacro{
+\backslash
+st}{sin(
+\backslash
+Angle)}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pgfmathsetmacro{
+\backslash
+asinfrac}{asin(
+\backslash
+ct/
+\backslash
+N)} % arcsin(cos(theta)/n)
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pgfmathsetmacro{
+\backslash
+cosarc}{cos(
+\backslash
+asinfrac)} % cos(arcsin(...))
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pgfmathsetmacro{
+\backslash
+Yval}{
+\backslash
+R*
+\backslash
+st + 
+\backslash
+N*
+\backslash
+R*
+\backslash
+cosarc} % Final y pos of slider
+\end_layout
+
+\begin_layout Plain Layout
+
+  % === Coordinates ===
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+coordinate (O) at (0,0);
+\end_layout
+
+\begin_layout Plain Layout
+
+  % === Axes ===
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (O) -- ++({
+\backslash
+R*2},0) node[right] {$x$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (O) -- ++(0,{
+\backslash
+R*(
+\backslash
+N+1.1)}) node[above] {$z$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  % === Ground and Crank ===
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pic (base) at (O) {frame pivot rounded};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pic (crank_arm) at (O) {link bar generic={
+\backslash
+Angle:
+\backslash
+R cm/1/1/1/1}};
+\end_layout
+
+\begin_layout Plain Layout
+
+  % === Slider and Connecting Rod ===
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pic (slider) at (0,
+\backslash
+Yval) [rotate=90] {frame dual pivot slide={2cm/0.0/0.4}};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+pic (connecting_rod) at (crank_arm-end) {link bar generic={slider-center/1/1/1/1}};
+\end_layout
+
+\begin_layout Plain Layout
+
+  % === Labels and Geometry ===
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[dashdotted] (O) -- (crank_arm-end) node[midway,above left] {$r$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[dashdotted] (crank_arm-end) -- (slider-center) node[midway,above,
+ right,
+ xshift=3pt,
+ yshift=1pt] {$l=nr$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+fill (O) circle (2pt)node[ xshift=-10pt,
+ yshift=10pt] {$O$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+fill (crank_arm-end) circle (2pt)
+\end_layout
+
+\begin_layout Plain Layout
+
+    node[ right=3pt]{$A$};
+\end_layout
+
+\begin_layout Plain Layout
+
+    % {$(r
+\backslash
+cos
+\backslash
+theta,
+\backslash
+ r
+\backslash
+sin
+\backslash
+theta)$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+fill (slider-center) circle (2pt)
+\end_layout
+
+\begin_layout Plain Layout
+
+    node[ right=10pt,
+ align=left] {$B$};
+\end_layout
+
+\begin_layout Plain Layout
+
+      % {$(0,
+\backslash
+ r
+\backslash
+sin
+\backslash
+theta +$
+\backslash
+
+\backslash
+$ 
+\backslash
+quad nr
+\backslash
+cos
+\backslash
+left(
+\backslash
+arcsin
+\backslash
+left(
+\backslash
+frac{
+\backslash
+cos
+\backslash
+theta}{n}
+\backslash
+right)
+\backslash
+right))$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  % Angle Arc
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] ({
+\backslash
+R*0.8},0) arc[start angle=0,
+ end angle=
+\backslash
+Angle,
+ radius={
+\backslash
+R*0.8}]
+\end_layout
+
+\begin_layout Plain Layout
+
+    node[midway,left,yshift=-5pt] {$
+\backslash
+theta$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (0,{
+\backslash
+Yval*0.5}) arc[start angle=-90,
+ end angle=
+\backslash
+asinfrac-90,
+ radius={
+\backslash
+Yval*0.5}]
+\end_layout
+
+\begin_layout Plain Layout
+
+    node[above,midway,xshift=-2pt] {$
+\backslash
+phi$};
+\end_layout
+
+\begin_layout Plain Layout
+
+% Shared X for dimension and dash lines
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+coordinate (dimX) at (-2.0,
+ 0);
+\end_layout
+
+\begin_layout Plain Layout
+
+% solid horizontal lines at top and bottom
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[solid] ($(slider-center -| dimX) + (-0.1,0)$) -- (slider-center);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[solid] ($(O -| dimX) + (-0.1,0)$) -- (O);
+\end_layout
+
+\begin_layout Plain Layout
+
+% One vertical dimension arrow from base to slider height
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[<->,
+ >=Stealth] (dimX) -- (dimX |- slider-center)
+\end_layout
+
+\begin_layout Plain Layout
+
+  node[midway,sloped,rotate=0,above] {$z=f(
+\backslash
+theta)$};
+\end_layout
+
+\begin_layout Plain Layout
+
+% Vertical arrow from (-1,
+ 0) to (-1,
+ r*sin(angle))
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[<->,
+ >=Stealth] (-1,
+ 0) -- (-1,
+ {
+\backslash
+R*
+\backslash
+st})
+\end_layout
+
+\begin_layout Plain Layout
+
+    node[midway,sloped,above] {$r
+\backslash
+sin(
+\backslash
+theta)$};
+\end_layout
+
+\begin_layout Plain Layout
+
+% Vertical arrow from (-1,
+ r*sin(angle)) to (-1,
+ 
+\backslash
+Yval)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[<->,
+ >=Stealth] (-1,
+ {
+\backslash
+R*
+\backslash
+st}) -- (-1,
+ 
+\backslash
+Yval)
+\end_layout
+
+\begin_layout Plain Layout
+
+    node[midway,sloped,above] {$l
+\backslash
+cos(
+\backslash
+phi)$};
+\end_layout
+
+\begin_layout Plain Layout
+
+% Horizontal line from (-1,
+ r*sin(angle)) to (r*cos(angle),
+ r*sin(angle))
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[solid] (-1.1,
+ {
+\backslash
+R*
+\backslash
+st}) -- ({
+\backslash
+R*
+\backslash
+ct},
+ {
+\backslash
+R*
+\backslash
+st})
+\end_layout
+
+\begin_layout Plain Layout
+
+    node[midway,below] {};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+caption{Slider-crank mechanism}
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+label{fig:SliderCrank}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{figure}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+\noindent
+Forward Kinematics:
+\end_layout
+
+\begin_layout Standard
+\noindent
+We consider a vertical slider–crank mechanism in which a crank of length 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$r$
+\end_layout
+
+\end_inset
+
+drives a slider B via a connecting rod of length 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$l$
+\end_layout
+
+\end_inset
+
+,
+ The vertical displacement of the slider,
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$z$
+\end_layout
+
+\end_inset
+
+,
+ can be written as:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+z = r 
+\backslash
+sin(
+\backslash
+theta) + l
+\backslash
+cos(
+\backslash
+phi)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Here,
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+theta$
+\end_layout
+
+\end_inset
+
+ is the angle between the crank arm and the horizontal 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$x$
+\end_layout
+
+\end_inset
+
+-axis,
+ and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+phi$
+\end_layout
+
+\end_inset
+
+ is the angle between the connecting rod and the vertical 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$z$
+\end_layout
+
+\end_inset
+
+-axis.
+\end_layout
+
+\begin_layout Standard
+\noindent
+Applying the sine rule to 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+triangle OAB$
+\end_layout
+
+\end_inset
+
+,
+ we obtain :
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frac{r}{
+\backslash
+sin(
+\backslash
+phi)} = 
+\backslash
+frac{l}{
+\backslash
+sin
+\backslash
+left(
+\backslash
+frac{
+\backslash
+pi}{2} - 
+\backslash
+theta 
+\backslash
+right)}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+We define a ratio 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$n = l/r$
+\end_layout
+
+\end_inset
+
+ for convenience of calculation.
+ substituting 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$l=nr$
+\end_layout
+
+\end_inset
+
+ and solving for 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+phi$
+\end_layout
+
+\end_inset
+
+ and we get-
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+phi = 
+\backslash
+sin^{-1}
+\backslash
+left( 
+\backslash
+frac{
+\backslash
+cos
+\backslash
+theta}{n} 
+\backslash
+right)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+So the displacement equation becomes -
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+  z = f(
+\backslash
+theta)
+\end_layout
+
+\begin_layout Plain Layout
+
+  = r 
+\backslash
+sin(
+\backslash
+theta) + nr
+\backslash
+cos(
+\backslash
+sin^{-1}
+\backslash
+!(
+\backslash
+frac{
+\backslash
+cos
+\backslash
+theta}{n}))
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+label{FK}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$Eq.~
+\backslash
+eqref{eq:FK}$
+\end_layout
+
+\end_inset
+
+ gives the forward kinematics ,
+ the vertical position 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$z$
+\end_layout
+
+\end_inset
+
+ of the slider as a function of crank angle 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+theta$
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+\noindent
+Inverse Kinematics:
+\end_layout
+
+\begin_layout Standard
+\noindent
+The inverse kinematics problem involves determining the crank angle 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+theta$
+\end_layout
+
+\end_inset
+
+ required to achieve a given vertical slider position 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$z$
+\end_layout
+
+\end_inset
+
+.
+ In 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+triangle OAB$
+\end_layout
+
+\end_inset
+
+ applying cosine rule,
+ we obtain :
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+angle AOB = 
+\backslash
+frac{
+\backslash
+pi}{2} - 
+\backslash
+theta = 
+\backslash
+cos^{-1}
+\backslash
+!(
+\backslash
+frac{h^2 + r^2 - l^2}{2hr})
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+substituting 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$l=nr$
+\end_layout
+
+\end_inset
+
+ and solving for 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+theta$
+\end_layout
+
+\end_inset
+
+ and we obtain -
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+theta = 
+\backslash
+sin^{-1}
+\backslash
+left( 
+\backslash
+frac{h^2 + r^2 (1- n^2)}{2hr} 
+\backslash
+right)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+label{eq:IK}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+This expression allows us to compute the crank angle 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+theta$
+\end_layout
+
+\end_inset
+
+ given the slider displacement 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$h$
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+\noindent
+Inverse Dynamics:
+\end_layout
+
+\begin_layout Standard
+\noindent
+The dynamics of the system are derived using Lagrangian mechanics.
+ We consider the slider has a mass 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$m$
+\end_layout
+
+\end_inset
+
+ and the inertia of motor driving the crank is 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$J$
+\end_layout
+
+\end_inset
+
+ in the crank frame.
+ At this stage of the analysis we assume the crank arm and the connecting rod has no mass.
+ In the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$theta$
+\end_layout
+
+\end_inset
+
+ as the generalized co-ordinate system.
+\end_layout
+
+\begin_layout Standard
+\noindent
+The total kinetic energy of the system can be written as:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{split}
+\end_layout
+
+\begin_layout Plain Layout
+
+    T &= T_{
+\backslash
+rm motor} + T_{
+\backslash
+rm slider} 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+      &= 
+\backslash
+tfrac{1}{2} J
+\backslash
+,
+\backslash
+dot{
+\backslash
+theta}^2 + 
+\backslash
+tfrac{1}{2} m
+\backslash
+,
+\backslash
+dot{z}^2 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+      &= 
+\backslash
+tfrac{1}{2} J
+\backslash
+,
+\backslash
+dot{
+\backslash
+theta}^2 + 
+\backslash
+tfrac{1}{2} m
+\backslash
+,
+\backslash
+bigl( 
+\backslash
+tfrac{dz}{d
+\backslash
+theta} 
+\backslash
+bigr)^2 
+\backslash
+dot{
+\backslash
+theta}^2 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+      &= 
+\backslash
+tfrac{1}{2} 
+\backslash
+bigl( J + m
+\backslash
+,
+\backslash
+bigl( 
+\backslash
+tfrac{dz}{d
+\backslash
+theta} 
+\backslash
+bigr)^2 
+\backslash
+bigr) 
+\backslash
+dot{
+\backslash
+theta}^2
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{split}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+The potential energy of the system :
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+  V = mgz = mgr(
+\backslash
+sin(
+\backslash
+theta) + n
+\backslash
+cos(
+\backslash
+sin^{-1}
+\backslash
+!(
+\backslash
+frac{
+\backslash
+cos
+\backslash
+theta}{n}))
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Hence the Lagrangian of the system is :
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mathcal{L} = 
+\backslash
+tfrac{1}{2} 
+\backslash
+left( J + m 
+\backslash
+left( 
+\backslash
+tfrac{dz}{d
+\backslash
+theta} 
+\backslash
+right)^2 
+\backslash
+right) 
+\backslash
+dot{
+\backslash
+theta}^2 - m g z(
+\backslash
+theta)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+label{eq:L}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+For the generalized co-ordinate system 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$q$
+\end_layout
+
+\end_inset
+
+,
+ the Euler-Lagrange equations are:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frac{d}{dt} 
+\backslash
+left( 
+\backslash
+frac{
+\backslash
+partial 
+\backslash
+mathcal{L}}{
+\backslash
+partial 
+\backslash
+dot{
+\backslash
+theta}} 
+\backslash
+right) - 
+\backslash
+frac{
+\backslash
+partial 
+\backslash
+mathcal{L}}{
+\backslash
+partial 
+\backslash
+theta} = Q
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Where,
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$Q$
+\end_layout
+
+\end_inset
+
+ represents the generalized force.
+ For our system,
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$q=
+\backslash
+theta$
+\end_layout
+
+\end_inset
+
+,
+ and thus required torque becomes 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$Q=
+\backslash
+tau$
+\end_layout
+
+\end_inset
+
+.Substituting we get:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{aligned}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tau 
+\end_layout
+
+\begin_layout Plain Layout
+
+&= 
+\backslash
+frac{d}{dt}
+\backslash
+Bigl(
+\backslash
+frac{
+\backslash
+partial 
+\backslash
+mathcal{L}}{
+\backslash
+partial 
+\backslash
+dot{
+\backslash
+theta}}
+\backslash
+Bigr)
+\end_layout
+
+\begin_layout Plain Layout
+
+  - 
+\backslash
+frac{
+\backslash
+partial 
+\backslash
+mathcal{L}}{
+\backslash
+partial 
+\backslash
+theta} 
+\backslash
+
+\backslash
+[8pt]
+\end_layout
+
+\begin_layout Plain Layout
+
+&= 
+\backslash
+frac{d}{dt}
+\backslash
+Bigl[(J + m
+\backslash
+,(
+\backslash
+frac{dz}{d
+\backslash
+theta})^2)
+\backslash
+,
+\backslash
+dot{
+\backslash
+theta}
+\backslash
+Bigr]
+\end_layout
+
+\begin_layout Plain Layout
+
+  - 
+\backslash
+Bigl[
+\backslash
+tfrac12
+\backslash
+bigl(2m
+\backslash
+,
+\backslash
+frac{dz}{d
+\backslash
+theta}
+\backslash
+,
+\backslash
+frac{d^2z}{d
+\backslash
+theta^2}
+\backslash
+bigr)
+\backslash
+,
+\backslash
+dot{
+\backslash
+theta}^2
+\end_layout
+
+\begin_layout Plain Layout
+
+           - m g
+\backslash
+,
+\backslash
+frac{dz}{d
+\backslash
+theta}
+\backslash
+Bigr] 
+\backslash
+
+\backslash
+[8pt]
+\end_layout
+
+\begin_layout Plain Layout
+
+&= (J + m
+\backslash
+,(
+\backslash
+frac{dz}{d
+\backslash
+theta})^2)
+\backslash
+,
+\backslash
+ddot{
+\backslash
+theta}
+\end_layout
+
+\begin_layout Plain Layout
+
+  + 2m
+\backslash
+,
+\backslash
+frac{dz}{d
+\backslash
+theta}
+\backslash
+,
+\backslash
+frac{d^2z}{d
+\backslash
+theta^2}
+\backslash
+,
+\backslash
+dot{
+\backslash
+theta}^2
+\end_layout
+
+\begin_layout Plain Layout
+
+  - 
+\backslash
+bigl(m
+\backslash
+,
+\backslash
+frac{dz}{d
+\backslash
+theta}
+\backslash
+,
+\backslash
+frac{d^2z}{d
+\backslash
+theta^2}
+\backslash
+,
+\backslash
+dot{
+\backslash
+theta}^2 
+\end_layout
+
+\begin_layout Plain Layout
+
+         - m g
+\backslash
+,
+\backslash
+frac{dz}{d
+\backslash
+theta}
+\backslash
+bigr) 
+\backslash
+
+\backslash
+[6pt]
+\end_layout
+
+\begin_layout Plain Layout
+
+&= (J + m
+\backslash
+,(
+\backslash
+frac{dz}{d
+\backslash
+theta})^2)
+\backslash
+,
+\backslash
+ddot{
+\backslash
+theta}
+\end_layout
+
+\begin_layout Plain Layout
+
+  + m
+\backslash
+,
+\backslash
+frac{dz}{d
+\backslash
+theta}
+\backslash
+,
+\backslash
+frac{d^2z}{d
+\backslash
+theta^2}
+\backslash
+,
+\backslash
+dot{
+\backslash
+theta}^2
+\end_layout
+
+\begin_layout Plain Layout
+
+  + m g
+\backslash
+,
+\backslash
+frac{dz}{d
+\backslash
+theta}
+\backslash
+,.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{aligned}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+label{eq:ID}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+Here,
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{aligned}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frac{dz}{d
+\backslash
+theta}
+\end_layout
+
+\begin_layout Plain Layout
+
+  &= r
+\backslash
+cos
+\backslash
+theta
+\end_layout
+
+\begin_layout Plain Layout
+
+    + n r 
+\backslash
+biggl[-
+\backslash
+sin
+\backslash
+!
+\backslash
+bigl(
+\backslash
+sin^{-1}(
+\backslash
+tfrac{
+\backslash
+cos
+\backslash
+theta}{n})
+\backslash
+bigr)
+\backslash
+;
+\end_layout
+
+\begin_layout Plain Layout
+
+      
+\backslash
+frac{d}{d
+\backslash
+theta}
+\backslash
+sin^{-1}
+\backslash
+!
+\backslash
+bigl(
+\backslash
+tfrac{
+\backslash
+cos
+\backslash
+theta}{n}
+\backslash
+bigr)
+\backslash
+biggr] 
+\end_layout
+
+\begin_layout Plain Layout
+
+    = r
+\backslash
+cos
+\backslash
+theta
+\end_layout
+
+\begin_layout Plain Layout
+
+    + 
+\backslash
+frac{r
+\backslash
+,
+\backslash
+cos
+\backslash
+theta
+\backslash
+,
+\backslash
+sin
+\backslash
+theta}{
+\backslash
+sqrt{n^2-
+\backslash
+cos^2
+\backslash
+theta}},
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frac{d^2z}{d
+\backslash
+theta^2}
+\end_layout
+
+\begin_layout Plain Layout
+
+  &= -r
+\backslash
+sin
+\backslash
+theta
+\end_layout
+
+\begin_layout Plain Layout
+
+    + r
+\backslash
+Bigl(
+\backslash
+frac{
+\backslash
+cos2
+\backslash
+theta}{
+\backslash
+sqrt{n^2-
+\backslash
+cos^2
+\backslash
+theta}}
+\end_layout
+
+\begin_layout Plain Layout
+
+      - 
+\backslash
+frac{
+\backslash
+cos^2
+\backslash
+theta
+\backslash
+,
+\backslash
+sin^2
+\backslash
+theta}{(n^2-
+\backslash
+cos^2
+\backslash
+theta)^{3/2}}
+\backslash
+Bigr).
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{aligned}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+\noindent
+Optimal Configuration:
+\end_layout
+
+\begin_layout Standard
+\noindent
+In order replicate the torso motion as accurately as possible,
+ we must satisfy the position workspace requirements as well reproduce the g-forces experienced by a runner.
+\end_layout
+
+\begin_layout Paragraph
+\noindent
+Kinematic Requirements:
+\end_layout
+
+\begin_layout Standard
+\noindent
+From the inverse‐kinematics relation 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$Eq.~
+\backslash
+eqref{eq:IK}$
+\end_layout
+
+\end_inset
+
+,
+ the crank radius 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$r$
+\end_layout
+
+\end_inset
+
+ must satisfy:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+[
+\end_layout
+
+\begin_layout Plain Layout
+
+z(
+\backslash
+theta)
+\end_layout
+
+\begin_layout Plain Layout
+
+= r
+\backslash
+sin
+\backslash
+theta 
+\backslash
+;+
+\backslash
+;
+ n
+\backslash
+,r
+\backslash
+cos
+\backslash
+!
+\backslash
+Bigl(
+\backslash
+sin^{-1}
+\backslash
+!(
+\backslash
+tfrac{
+\backslash
+cos
+\backslash
+theta}{n})
+\backslash
+Bigr)
+\end_layout
+
+\begin_layout Plain Layout
+
+= 
+\backslash
+pm4
+\backslash
+;
+\backslash
+mathrm{cm}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+quad
+\backslash
+text{at}
+\backslash
+quad
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+theta = 
+\backslash
+pm
+\backslash
+frac{
+\backslash
+pi}{2}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+This yields,
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+r_{
+\backslash
+min} 
+\backslash
+;=
+\backslash
+;
+ 4
+\backslash
+;
+\backslash
+mathrm{cm}.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+\noindent
+Dynamic Requirements:
+\end_layout
+
+\begin_layout Standard
+\noindent
+In the biomechanical dataset,
+ we observe that the highest acceleration occurs when the Z-value reaches its minimum,
+ corresponding to the foot striking the ground.To optimize the system for generating maximum acceleration,
+ we must:
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+Identify the crank angle 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+theta_{g_{max}}$
+\end_layout
+
+\end_inset
+
+,
+ using inverse kinematics,
+ that produces this specific Z-position.
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+Optimize the system parameters such that the slider's inertia is matched precisely at this crank angle
+\end_layout
+
+\begin_layout Standard
+\noindent
+From  
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$Eq.~
+\backslash
+eqref{eq:ID}$
+\end_layout
+
+\end_inset
+
+ we find the the total effective inertia of the system:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+J_{total}  = J + m
+\backslash
+,(
+\backslash
+frac{dz}{d
+\backslash
+theta})^2 = J + mr^2(
+\backslash
+cos
+\backslash
+theta+ 
+\backslash
+frac{
+\backslash
+cos
+\backslash
+theta
+\backslash
+,
+\backslash
+sin
+\backslash
+theta}{
+\backslash
+sqrt{n^2-
+\backslash
+cos^2
+\backslash
+theta}})^2
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Therefore,
+ the inertia ratio is:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+ N_{J}=mr^2(
+\backslash
+cos
+\backslash
+theta+ 
+\backslash
+frac{
+\backslash
+cos
+\backslash
+theta
+\backslash
+,
+\backslash
+sin
+\backslash
+theta}{
+\backslash
+sqrt{n^2-
+\backslash
+cos^2
+\backslash
+theta}})^2 /J |_{
+\backslash
+theta=
+\backslash
+theta_{g_{max}}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+label{eq:r_opt}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{equation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+From 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$Eq.~
+\backslash
+eqref{eq:ID}$
+\end_layout
+
+\end_inset
+
+ we observe that,
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$N_{J}$
+\end_layout
+
+\end_inset
+
+ is a function of the crank angle 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+theta$
+\end_layout
+
+\end_inset
+
+,
+ evaluated specifically at the angle 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+theta_{g_{max}}$
+\end_layout
+
+\end_inset
+
+,
+ slider's mass 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$m$
+\end_layout
+
+\end_inset
+
+,
+ crank radius 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$r$
+\end_layout
+
+\end_inset
+
+,
+ connecting rod length to crank arm length ratio 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$n$
+\end_layout
+
+\end_inset
+
+,
+ and the crank motor inertia 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$J$
+\end_layout
+
+\end_inset
+
+,
+ in crank frame.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+Fixing the slider mass at 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$m = 5$
+\end_layout
+
+\end_inset
+
+kg and setting the connecting‐rod‐to‐crank‐arm ratio
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$n = 3.5$
+\end_layout
+
+\end_inset
+
+(a representative value in the common literature range of 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$3$
+\end_layout
+
+\end_inset
+
+–
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$4$
+\end_layout
+
+\end_inset
+
+)(insert citation here).This leaves the motor inertia 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$J$
+\end_layout
+
+\end_inset
+
+ and crank radius 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$r$
+\end_layout
+
+\end_inset
+
+ as free variables,
+ and the resulting inertia ratio:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+[
+\end_layout
+
+\begin_layout Plain Layout
+
+N_J(r,J)
+\end_layout
+
+\begin_layout Plain Layout
+
+= 
+\backslash
+frac{m
+\backslash
+,r^2
+\backslash
+Bigl(
+\backslash
+cos
+\backslash
+theta
+\end_layout
+
+\begin_layout Plain Layout
+
++ 
+\backslash
+dfrac{
+\backslash
+cos
+\backslash
+theta
+\backslash
+,
+\backslash
+sin
+\backslash
+theta}{
+\backslash
+sqrt{n^2 - 
+\backslash
+cos^2
+\backslash
+theta}}
+\backslash
+Bigr)^{2}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+Bigl
+\backslash
+lvert_{
+\backslash
+theta = 
+\backslash
+theta_{
+\backslash
+min}}}{J}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+must be unity for optimal dynamic matching.
+ This means,
+ we must select a motor having inertia 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$J$
+\end_layout
+
+\end_inset
+
+,
+ and corresponding crank arm radius
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$r$
+\end_layout
+
+\end_inset
+
+,
+ so that the inertia ratio 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$N_J(r,J)$
+\end_layout
+
+\end_inset
+
+is unity or close to unity.
+\end_layout
+
+\begin_layout Standard
+\noindent
+Comparing between few commercially available servo motor we see:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{figure}[htbp]
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+includegraphics[width=0.6
+\backslash
+linewidth]{mspecSC.png}
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+caption{Inertia Ratio vs Crank arm radius}
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+label{fig:motor_spec_1}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{figure}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+The suitable motors are- 
+\begin_inset Quotes eld
+\end_inset
+
+GIM-8115-9
+\begin_inset Quotes erd
+\end_inset
+
+ ,
+ 
+\begin_inset Quotes eld
+\end_inset
+
+EC057B
+\begin_inset Quotes erd
+\end_inset
+
+,
+ 
+\begin_inset Quotes eld
+\end_inset
+
+EC057C
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This gives us a fully defined slider crank system parameters.
+ To assess the dynamic performance of each motor,
+ a sinusoidal reference trajectory
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+[
+\end_layout
+
+\begin_layout Plain Layout
+
+z(t)= 0.04
+\backslash
+sin(2
+\backslash
+pi3t)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+was considered.
+ This function approximates the dominant vertical motion observed in the biomechanical dataset and serves as a representative test case for evaluating dynamic performance.
+\end_layout
+
+\begin_layout Standard
+\noindent
+An inverse dynamics simulation was conducted using this trajectory to compute the required crank angular velocities and torques throughout the motion cycle.
+ The results indicate that although all three motors are capable of achieving the necessary rotational speeds,
+ only the GIM-8115-9 is able to deliver the required torque while remaining within its continuous operating region.
+ The EC057B and EC057C,
+ while mechanically compatible,
+ exceed their peak torque ratings under dynamic conditions.(insert picture here)
+\begin_inset Newline newline
+\end_inset
+
+This gives us crank radius of 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$r=0.1
+\backslash
+text{m}$
+\end_layout
+
+\end_inset
+
+ and an equivalent motor inertia of 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$J = 1.2
+\backslash
+times10^{-4}
+\backslash
+text{kg}
+\backslash
+cdot
+\backslash
+text{m}^2$
+\end_layout
+
+\end_inset
+
+,
+ in crank frame
+\end_layout
+
+\begin_layout Standard
+\noindent
+Moving forward,
+ the GIM-8115-9 will be used for further use in the six-degree-of-freedom (6-DoF) dynamic model,
+ which will incorporate full actuator dynamics,
+ system inertias,
+ and kinematic constraints in the subsequent stages of this study.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Stuart Platform :
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{figure}[htbp]
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+includegraphics[width=0.3
+\backslash
+linewidth]{SP.png}
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+caption{Stuart Platform}
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+label{fig:SP}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{figure}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

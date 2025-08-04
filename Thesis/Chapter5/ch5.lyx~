@@ -1,0 +1,275 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children no
+\language american
+\language_package default
+\inputencoding utf8
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008080
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content true
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Implementation:
+\end_layout
+
+\begin_layout Standard
+This chapter outlines the Hexapod’s software architecture and hardware components.
+ In the Software Architecture subsection,
+ the user-interaction flow is described first,
+ followed by the system architecture and its components.
+ The Hardware Components subsection then provides a detailed description of the electronics used.
+\end_layout
+
+\begin_layout Subsection
+Software Architecture:
+\end_layout
+
+\begin_layout Subsubsection
+User Interaction Flow:
+\end_layout
+
+\begin_layout Standard
+The Hexapod is controlled by a host PC running a Python-based graphical user interface (GUI) application.
+ To operate,
+ the user selects the COM port from the drop-down menu (filtered by vendor ID and product ID to show only Teensy 4.1 microcontrollers) and clicks Connect.
+ Once the connection is established,
+ the Connect button turns green and is disabled.
+\end_layout
+
+\begin_layout Standard
+Next,
+ the user clicks Enable,
+ which sends a command to the motor drivers to power the motors and—
+if it’s a cold start—
+run the calibration procedures.
+ The user then clicks Upload,
+ which opens a file-selection dialog.
+ From there,
+ they navigate on the host PC to choose a motion profile file (in .txt,
+ .csv or Excel format) containing seven rows of data:
+ time,
+ x,
+ y,
+ z,
+ roll,
+ pitch and yaw.
+\end_layout
+
+\begin_layout Standard
+After selection,
+ the application checks data integrity,
+ passes the data through an inverse kinematics (IK) block to inspect for singularities,
+ and if IK succeeds,
+ runs an inverse dynamics (ID) analysis to verify physical realizability (including torque and speed bounds).
+ If the trajectory is validated,
+ the resulting motor motion profile is uploaded to the RAM of the Teensy 4.1 micro-controller.
+ With a maximum trajectory size of 8 MB and a 1 kHz sampling rate,
+ this supports non-cyclic trajectories up to ≈ 5 hours 49 minutes,
+ or cyclic trajectories of any length.
+\end_layout
+
+\begin_layout Standard
+Once uploaded,
+ the system moves the Hexapod to the trajectory’s start position.
+ The user clicks Play to begin execution;
+ playback speed is ramped from 0 % to 100 % via a low-pass filter to prevent acceleration spikes.
+ Pause momentarily interrupts execution (resumable via Play),
+ and Stop halts it entirely.
+\end_layout
+
+\begin_layout Standard
+A Disable button provides software-based motor disarming,
+ while a physical Stop button cuts power completely.
+ A Reset button in the GUI clears any error states.
+ When execution finishes—
+signaled by the user pressing both Play and Stop—
+the system automatically generates a log file.
+ This file records timestamped user inputs and motor-driver feedback (timestamp,
+ position,
+ velocity,
+ torque and motor temperature) at a 1 kHz sampling rate.
+\end_layout
+
+\begin_layout Subsubsection
+System Architecture:
+\end_layout
+
+\begin_layout Standard
+The software used to operate the Hexapod is divided in 3 parts :
+ The host PC python application,
+ the master Teensy and the slave T.
+ User inputs from the GUI sends command to the master T,
+ the master Teensy receives the information over a USB connection.
+ The master Teensy itself acts as a USB host and in turn sends commands to the slave Teensy's and relays information back to the host PC.
+ The Slave T's interact with the motor's builtin driver.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename SystemArchitecture.svg
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+System Architecture
+\end_layout
+
+\end_inset
+
+System Architecture
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+The Python Application:
+\end_layout
+
+\end_body
+\end_document
