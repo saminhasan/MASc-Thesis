@@ -168,7 +168,7 @@ The Hexapod is controlled by a host PC running a Python-based graphical user int
  To operate,
  the user selects the COM port from the drop-down menu (filtered by vendor ID and product ID to show only Teensy 4.1 microcontrollers) and clicks Connect.
  Once the connection is established,
- the Connect button turns green and is disabled.
+ the Connect button turns green.
 \end_layout
 
 \begin_layout Standard
@@ -192,12 +192,10 @@ Next,
 \begin_layout Standard
 After selection,
  the application checks data integrity,
- passes the data through an inverse kinematics (IK) block to inspect for singularities,
- and if IK succeeds,
- runs an inverse dynamics (ID) analysis to verify physical realizability (including torque and speed bounds).
+ passes the data through an inverse kinematics (IK) block to check for singularities.
  If the trajectory is validated,
  the resulting motor motion profile is uploaded to the RAM of the Teensy 4.1 micro-controller.
- With a maximum trajectory size of 8 MB and a 1 kHz sampling rate,
+ With a maximum trajectory size of 8 MB at 1 kHz sampling rate,
  this supports non-cyclic trajectories up to ≈ 5 hours 49 minutes,
  or cyclic trajectories of any length.
 \end_layout
@@ -206,7 +204,7 @@ After selection,
 Once uploaded,
  the system moves the Hexapod to the trajectory’s start position.
  The user clicks Play to begin execution;
- playback speed is ramped from 0 % to 100 % via a low-pass filter to prevent acceleration spikes.
+ playback speed is ramped up slowly via a low-pass filter to prevent acceleration spikes.
  Pause momentarily interrupts execution (resumable via Play),
  and Stop halts it entirely.
 \end_layout
@@ -216,12 +214,66 @@ A EStop button provides software-based motor disarming,
  while a physical Stop button cuts power completely.
  A Reset button in the GUI clears any error states.
  When execution finishes—
-signaled by the user pressing both Play and Stop—
-the system automatically generates a log file.
- This file records timestamped user inputs and motor-driver feedback (timestamp,
+signaled by the user pressing both Play and Stop a log file is generated automatically.
+ This file also records timestamped user inputs and motor-driver feedback (timestamp,
  position,
  velocity,
  torque and motor temperature) at a 1 kHz sampling rate.
+\end_layout
+
+\begin_layout Standard
+A finite state machine governs the user interaction as every user event.
+ The GUI sends transition request to the Hexapod and if the transition is successful,
+ the GUI is updated to show user the next available transitions.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename FSMFULL.drawio.png
+	scale 15
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+GUI Finite State Machine
+\end_layout
+
+\end_inset
+
+GUI Finite State Machine
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -318,7 +370,8 @@ Communication Protocol:
 \end_layout
 
 \begin_layout Standard
-All serial communication uses a MAVLink-inspired custom binary protocol.
+All inter device communication is done using a MAVLink protocol inspired custom binary protocol.
+ The used binary protocol has only 16 bytes overhe
 \end_layout
 
 \begin_layout Standard
