@@ -92,7 +92,7 @@
 \begin_body
 
 \begin_layout Section
-Implementation:
+Implementation :
 \end_layout
 
 \begin_layout Standard
@@ -104,11 +104,156 @@ This chapter outlines the Hexapod’s software architecture and hardware compone
 \end_layout
 
 \begin_layout Subsection
-Software Architecture:
+Hardware Componets :
+\end_layout
+
+\begin_layout Standard
+This subsection lists the physical components used in the Hexapod,
+ their roles,
+ and how they interconnect.
 \end_layout
 
 \begin_layout Subsubsection
-User Interaction Flow:
+Actuators :
+\end_layout
+
+\begin_layout Standard
+(insert picture here)
+\end_layout
+
+\begin_layout Standard
+During the Feasibility Study we found the GIM 8115-9 servo motors to be suitable.
+ So we use 6 motors in total,
+ one for each axis.
+ This motor operates at 36 Volt DC and receives commands over CAN Bus at 500 Kilo Byte/second rate.
+ It has three modes of operation:Torque control,
+ Velocity Control and Position Control.
+ We decided to use the velocity control mode with our own PD position controller as outer loop,
+ as it increases the position control bandwidth.
+ The details for this decision are explained in the control systems section.
+ The motor driver also has feature for enabling or disabling the power stage based on CAN bus commands.
+ For each command sent to the motor driver,
+ it replies with an ACK/NAK packet for indicating succes or failure.
+ Each feedback packet contains relevant information.
+ For an example,
+ whenever any control comamnd is sent,
+ the driver replies with the current shaft position,
+ velocity,
+ applied torque and the temp of the motor coils.
+ For enable and disable command,
+ it sends back a simple ACK / NAK.
+\end_layout
+
+\begin_layout Subsubsection
+Microcontrollers :
+\end_layout
+
+\begin_layout Standard
+(insert picture here)
+\end_layout
+
+\begin_layout Standard
+We used 4 Teensy 4.1 microcontroller for this project.
+ This choice was based on the following reasons.
+ The GIM 8115-9 motor's driver commonicates over CAN bus at 500KBPS.
+ The manufacturer specified protocol uses 8 bytes for each command and feedback.
+ According to CAN 2.0 framing standard,
+ this results in a payload 8 byte or 64 bits to blow up to 130 bits in the worst case.
+ At 500 KBPS,
+ this takes about 260 microsecsonds to transmit the command and same amount of time to receive the feedback.
+ As a result total round trip time takes 560 microseconds.
+ Therefore to maintain a sampling time of 1 ms,
+ we can not have more than one motor per bus.
+ The Teensy 4.1 microcontroller has 2 CAN 2.0 ports,
+ but it requires an external electrical interface.
+ Thus we chose to use 3 Teensy 4.1 microcontroller (slave microcontroller) to communicate with the 6 actuators.
+ To maintain synchronization,
+ we use another Teensy 4.1(master microcontroller).
+ The Teensy 4.1 has 1MB or primary RAM and 16 MB of secondary RAM onboard.
+ The master microcontroller holds the trajectory information on the secondary RAM.
+ It also acts as USB host to send data over USB serial to the secondary microcontroller,
+ while the master itself receives command over USB serial from a host computer.
+\end_layout
+
+\begin_layout Subsubsection
+CAN Transceiver :
+\end_layout
+
+\begin_layout Standard
+(insert picture here)
+\end_layout
+
+\begin_layout Standard
+We use the SN65HVD230 CAN Board as CAN transceiver.
+ It can handle CAN data rates of up-to 1Mbit/s.
+ It also offers ESD protection.
+\end_layout
+
+\begin_layout Subsection
+System Architecture :
+\end_layout
+
+\begin_layout Standard
+The Hexapod consists of 3 main subsystems.
+ They are :
+ The host PC application,
+ The master microcontroller and the slave microcontroller.The host PC connects to the master microcontroller via a USB cable and exchanges data using a serial USB protocol.
+ The microcontroller works as USB host and a USB 2.0 USB hub is connected to the main microcontroller.
+ The slave microcontroller connects to this USB hub.
+ The subsystems are explained with further details below:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename SystemArchitecture.svg
+	scale 15
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+System architecture
+\end_layout
+
+\end_inset
+
+System architecture
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+The Python Application :
 \end_layout
 
 \begin_layout Standard
@@ -164,7 +309,7 @@ name "fig:GUI"
 \end_layout
 
 \begin_layout Standard
-The Hexapod is controlled by a host PC running a Python-based graphical user interface (GUI) application.
+The Hexapod is controlled by a host PC using graphical user interface (GUI) application written in Python.
  To operate,
  the user selects the COM port from the drop-down menu (filtered by vendor ID and product ID to show only Teensy 4.1 microcontrollers) and clicks Connect.
  Once the connection is established,
@@ -204,7 +349,7 @@ After selection,
 Once uploaded,
  the system moves the Hexapod to the trajectory’s start position.
  The user clicks Play to begin execution;
- playback speed is ramped up slowly via a low-pass filter to prevent acceleration spikes.
+ playback speed is ramped up slowly to prevent acceleration spikes.
  Pause momentarily interrupts execution (resumable via Play),
  and Stop halts it entirely.
 \end_layout
@@ -214,7 +359,7 @@ A EStop button provides software-based motor disarming,
  while a physical Stop button cuts power completely.
  A Reset button in the GUI clears any error states.
  When execution finishes—
-signaled by the user pressing both Play and Stop a log file is generated automatically.
+signaled by the user pressing Play and Stop a log file is generated automatically.
  This file also records timestamped user inputs and motor-driver feedback (timestamp,
  position,
  velocity,
@@ -225,6 +370,21 @@ signaled by the user pressing both Play and Stop a log file is generated automat
 A finite state machine governs the user interaction as every user event.
  The GUI sends transition request to the Hexapod and if the transition is successful,
  the GUI is updated to show user the next available transitions.
+ The state machine makes sure all events happens in the intended sequence.
+\end_layout
+
+\begin_layout Subsubsection
+The Master Microcontroller :
+\end_layout
+
+\begin_layout Standard
+The operation of the system is governed by a finite state machine running on the master microcontroller.
+ It receives transition requests from the host PC applicaiton and based on the request type,
+ sends the response itself,
+ or relays the message to the salve microcontroller for response.The master microcontroller acts as source of ground truth for the other subsystems.
+ It runs the At system startup and at every state change,
+ the new state is broadcasted to the host PC and the slave microcontrollers.
+ The diagram of the state machine is shown below :
 \end_layout
 
 \begin_layout Standard
@@ -274,121 +434,148 @@ name "fig:FSM"
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It has the following states :
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
 \begin_layout Plain Layout
 
+IDLE,
+ DISCONNECTED,
+ CONNECTED,
+ READY,
+ STOPPED,
+ PLAYING,
+ PAUSED,
+ ERROR.
 \end_layout
 
 \end_inset
 
+ The resulting action of each transition is explained below :
+\end_layout
 
+\begin_layout Subparagraph
+Connect :
+ 
+\end_layout
+
+\begin_layout Standard
+This transition is triggered when the master microcontroller detects a connection with host computer over USB serial.
+\end_layout
+
+\begin_layout Subparagraph
+Disconnect :
+ 
+\end_layout
+
+\begin_layout Standard
+This transition is triggered when the master microcontroller loses connection with the host computer.
+\end_layout
+
+\begin_layout Subparagraph*
+Enable :
+ 
+\end_layout
+
+\begin_layout Standard
+Upon receiving this transition request,
+ the master microcontroller sends a request to the slave microcontrollers to send an enable command to the motor drivers,
+ the motor driver feedback is then relayed back to the master microcontroller,
+ which completes the transition.
+\end_layout
+
+\begin_layout Subparagraph*
+Disable/ Estop :
+ 
+\end_layout
+
+\begin_layout Standard
+Upon receiving this transition request,
+ the master microcontroller sends a request to the slave microcontrollers to send an disable command to the motor drivers,
+ the motor driver feedback is then relayed back to the master microcontroller,
+ which completes the transition.
+\end_layout
+
+\begin_layout Subparagraph
+Upload :
+ 
+\end_layout
+
+\begin_layout Standard
+Receives trajectory data streamed through the USB connection to the secondary RAM.
+ Moves the platform to the first sample in the trajectory.
+\end_layout
+
+\begin_layout Subparagraph
+Play :
+\end_layout
+
+\begin_layout Standard
+Start sending the trajectory information ans position commands.
+ Starts gradually in order to avoid acceleration spikes st sudden start.
+\end_layout
+
+\begin_layout Subparagraph
+Pause :
+\end_layout
+
+\begin_layout Standard
+Halt the progression through the trajectory,
+ slowly.
+\end_layout
+
+\begin_layout Subparagraph
+Stop :
+\end_layout
+
+\begin_layout Standard
+Delete the trajectory data in RAM and move the platform to stow position.
+\end_layout
+
+\begin_layout Subparagraph
+Reset :
+ 
+\end_layout
+
+\begin_layout Standard
+Reset all the microcontroller to clear errors.
+\end_layout
+
+\begin_layout Standard
+(insert flowchart and explain the smooth startup here).
 \end_layout
 
 \begin_layout Subsubsection
-System Architecture:
+The Slave Microcontroller :
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
-placement H
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-
+The slave receives commands over USB serial.
+ The commands it receives are :
+ Enable,
+ Disable or move to a certain position.
+ It also runs a discrete PD controller at 1KHz sample time.
+ Upon receiving a command over USB,
+ it translates the commands into appopriate commands for the motor driver and sends that data over CAN bus and upon receiving feedback from the motor drivers constructs a response packet and sends it back to the master microcontroller.
+ 
 \end_layout
 
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename SystemArchitecture.svg
-	scale 20
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset Argument 1
-status open
-
-\begin_layout Plain Layout
-System Architecture
-\end_layout
-
-\end_inset
-
-System Architecture
-\end_layout
-
-\end_inset
-
-
-\begin_inset CommandInset label
-LatexCommand label
-name "fig: SystemArchitecture"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The software used to operate the Hexapod is divided into three parts:
- the host-PC Python application,
- the master Teensy,
- and the slave Teensy modules.
- User inputs from the GUI send commands to the master Teensy over USB.
- The master Teensy acts as a USB host,
- forwarding those commands to the slave Teensys and relaying their responses back to the host PC.
- The slave Teensy modules then interact directly with the motors’ built-in drivers.
-\end_layout
-
-\begin_layout Paragraph
-The Python Application:
-\end_layout
-
-\begin_layout Standard
-The Python application on the host PC begins by launching two separate child processes.
- The first process renders the GUI and sends user inputs to the second process via pipes,
- exposing only the commands valid for the current state of the finite-state machine (FSM).
- The second process receives these commands,
- forwards them to the master Teensy,
- and processes its acknowledgements to update the UI FSM.
- It then spawns two threads:
- one sends user commands (from the pipe) to the microcontroller,
- and the other pushes incoming data from the COM port into a double-ended queue.
- Meanwhile,
- the main thread pops bytes from that queue one at a time and decodes the microcontroller’s data stream.
-\end_layout
-
-\begin_layout Paragraph
-The Master Micro-controller:
-\end_layout
-
-\begin_layout Standard
-The master micro-controller receives commands from the host PC and relays the commands to the slave micro controller.
- It also holds the trajectory information in Joint Space,
- which is the essentially the the motor angles from the 
-\end_layout
-
-\begin_layout Paragraph
+\begin_layout Subsubsection
 Communication Protocol:
 \end_layout
 
 \begin_layout Standard
-Inter-device communication is implemented via a custom,
- MAVLink-inspired binary framing protocol that incurs a fixed 16-byte header/footer overhead.
+Inter-device communication is done via a custom binary framing protocol that has a fixed 16-byte header/footer overhead.
  As summarized in Table 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -769,7 +956,7 @@ Sequence Number
 \uwave off
 \noun off
 \color none
-System ID
+Sender ID
 \end_layout
 
 \end_inset
@@ -840,7 +1027,7 @@ System ID
 \uwave off
 \noun off
 \color none
-Axis ID
+Receiver ID
 \end_layout
 
 \end_inset
